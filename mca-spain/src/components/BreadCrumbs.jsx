@@ -1,30 +1,31 @@
-import React, { Fragment } from 'react';
-import styled from 'styled-components';
-import ArrowNavegation from '../assets/svg/ArrowNavegation';
+import React, { Fragment } from "react";
+import styled from "styled-components";
+import ArrowNavegation from "../assets/svg/ArrowNavegation";
+import Text from "./Text";
 
 const BreadCrumbs = ({ crumbs, selectLastBreadCrumb }) => {
   return (
     <Container>
       {crumbs.map((element, index) => {
         return (
-          <Fragment key={'crumb' + index}>
+          <Fragment key={"crumb" + index}>
             {index === 0 ? (
               <>
-                <InitialCrumb
-                  onClick={() => element.onClick && element.onClick()}
-                  hover={crumbs.length > 1}
-                >
-                  {element.title}
-                </InitialCrumb>
+                <CrumbLeft onClick={() => element.onClick && element.onClick()}>
+                  <InitialCrumb
+                    text={element.title}
+                    hover={crumbs.length > 1}
+                  />
+                </CrumbLeft>
                 <ArrowNavegation />
               </>
             ) : (
-              <Crumb
-                onClick={() => element.onClick && element.onClick()}
-                selected={index === crumbs.length - 1 && selectLastBreadCrumb}
-              >
-                {element.title}
-              </Crumb>
+              <CrumbRight onClick={() => element.onClick && element.onClick()}>
+                <Crumb
+                  text={element.title}
+                  selected={index === crumbs.length - 1 && selectLastBreadCrumb}
+                />
+              </CrumbRight>
             )}
           </Fragment>
         );
@@ -42,27 +43,29 @@ const Container = styled.div`
   height: 18px;
 `;
 
-const InitialCrumb = styled.p`
-  font-size: 16px;
-  height: 21px;
-  font-family: Montserrat-Regular;
-  width: 24px;
-  margin: 0px 20px 0px 0px;
+const CrumbLeft = styled.div`
+  height: 18px;
+  margin: -4px 20px 0px 0px;
+  width: 12px;
+`;
+
+const CrumbRight = styled(CrumbLeft)`
+  width: auto;
+`;
+
+const InitialCrumb = styled(Text)`
   &:hover {
     ${({ hover }) =>
       hover &&
       `
-        font-size: 17px;
+        font-size: 14px;
         cursor: pointer;
-        height: 23px;
     `}
   }
 `;
 
-const Crumb = styled.p`
-  font-size: 16px;
-  height: 21px;
-  font-family: Montserrat-Regular;
-  color: ${({ selected }) => (selected ? '#06c' : 'rgba(0, 0, 0, 0.28)')};
-  cursor: ${({ selected }) => (selected ? 'default' : 'pointer')};
+const Crumb = styled(Text)`
+  height: 18px;
+  color: ${({ selected }) => (selected ? "#06c" : "333333")};
+  cursor: ${({ selected }) => (selected ? "default" : "pointer")};
 `;

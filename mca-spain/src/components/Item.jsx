@@ -1,5 +1,6 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react';
+import styled from 'styled-components';
+import Text from './Text';
 
 const Item = ({ onClick, urlImg, branch, model, price }) => {
   return (
@@ -7,10 +8,10 @@ const Item = ({ onClick, urlImg, branch, model, price }) => {
       <Image src={urlImg}/>
       <Columns>
         <ColumnText>
-          <Branch>{branch}</Branch>
-          <Model>{model}</Model>
+          <Branch text={branch}/>
+          <Model text={model}/>
         </ColumnText>
-        <Price>{price !== '' ? price + '€' : 'Consultar'} </Price>
+        <Price text={price !== '' ? price + ' EUR' : 'Consultar'} />
       </Columns>
     </Container>
   );
@@ -44,11 +45,7 @@ const ColumnText = styled.div`
   width: 75%;
 `;
 
-const Branch = styled.span`
-  font-size: 16px;
-  font-family: Montserrat-Regular;
-`;
-
+const Branch = styled(Text)``;
 const Model = styled(Branch)``;
 const Price = styled(Branch)`
   margin: auto 0px;
