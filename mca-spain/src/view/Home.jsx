@@ -1,14 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import BreadCrumbs from '../components/BreadCrumbs';
-import Search from '../components/Search';
 
 function Home() {
-  const [value, setValue] = useState('');
-  
-  const onChangeSearch = e => {
-    setValue(e);
-  }
+
   return (
     <Container>
       <BreadCrumbs
@@ -18,12 +13,6 @@ function Home() {
             title: 'Store',
           },
         ]}
-      />
-      <Search
-        value={value}
-        onChange={(e) => {
-          onChangeSearch(e);
-        }}
       />
     </Container>
   );

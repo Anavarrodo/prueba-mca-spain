@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Buy from '../assets/svg/Buy';
 
-function Header({ branch }) {
+const Header = ({ branch }) => {
   return (
     <Container>
       <Branch>{branch}</Branch>
