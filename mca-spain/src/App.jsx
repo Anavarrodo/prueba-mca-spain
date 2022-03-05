@@ -13,10 +13,11 @@ function App() {
         <Routes>
           <Route path={ROOT_PATH} exact element={<Home />} />
           <Route path={HOME_PATH} exact element={<Home />} />
-          <Route path={`${DETAIL_PATH}/:id`} element={<Detail />} />
+          <Route path={DETAIL_PATH} element={<Detail />} />
         </Routes>
       </BrowserRouter>
     </>
   );
 }
 export default App;
+// path={`${DETAIL_PATH}/:id`}
