@@ -29,5 +29,5 @@ const Container = styled.section`
   flex-direction: column;
   gap: 32px;
   margin: 0 auto;
-  padding: 24px;
+  padding: 24px 42px;
 `;

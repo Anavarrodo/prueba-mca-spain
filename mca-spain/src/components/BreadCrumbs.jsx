@@ -46,7 +46,7 @@ const InitialCrumb = styled.p`
   height: 21px;
   font-family: Montserrat-Regular;
   width: 24px;
-  margin: 0px 20px;
+  margin: 0px 20px 0px 0px;
   &:hover {
     font-size: 17px;
     cursor: pointer;
