@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import BreadCrumbs from '../components/BreadCrumbs';
-import Item from '../components/Item';
 
 function Home() {
 
@@ -14,12 +13,6 @@ function Home() {
             title: 'Store',
           },
         ]}
-      />
-      <Item
-        branch="Acer"
-        model="Predator v8"
-        urlImg={'https://front-test-api.herokuapp.com/images/ZmGrkLRPXOTpxsU4jjAcv.jpg'}
-        price="150"
       />
     </Container>
   );
