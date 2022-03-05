@@ -1,12 +1,18 @@
 import React from 'react';
-import styled from 'styled-components';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { ROOT_PATH, HOME_PATH, DETAIL_PATH } from './utils/paths';
+import Home from './view/Home';
+import Detail from './view/Detail';
 
 function App() {
-  return <Title>Hello world!</Title>;
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path={ROOT_PATH} exact element={<Home />} />
+        <Route path={HOME_PATH} exact element={<Home />} />
+        <Route path={`${DETAIL_PATH}/:id`} element={<Detail />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
 export default App;
-
-const Title = styled.span`
-  font-family: Montserrat-Regular;
-`;
