@@ -8,7 +8,7 @@ import Header from './components/Header';
 function App() {
   return (
     <>
-      <Header branch="Phone Store"/>
+      <Header brand='Phone Store' />
       <BrowserRouter>
         <Routes>
           <Route path={ROOT_PATH} exact element={<Home />} />

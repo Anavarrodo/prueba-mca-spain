@@ -1,15 +1,17 @@
 import React from 'react';
 import styled from 'styled-components';
 import Text from './Text';
-
-const Item = ({ onClick, urlImg, branch, model, price }) => {
+import LazyLoad from 'react-lazyload';
+const Item = ({ onClick, urlImg, brand, model, price }) => {
   return (
     <Container onClick={() => onClick && onClick()}>
-      <Image src={urlImg}/>
+      <LazyLoad height={200} once offset={-100}>
+        <Image src={urlImg} />
+      </LazyLoad>
       <Columns>
         <ColumnText>
-          <Branch text={branch}/>
-          <Model text={model}/>
+          <Brand text={brand} />
+          <Model text={model} />
         </ColumnText>
         <Price text={price !== '' ? price + ' EUR' : 'Consultar'} />
       </Columns>
@@ -27,8 +29,8 @@ const Container = styled.div`
 const Image = styled.img`
   height: 280px;
   &:hover {
-      opacity: 0.5;
-      cursor: pointer;
+    opacity: 0.5;
+    cursor: pointer;
   }
 `;
 
@@ -45,9 +47,9 @@ const ColumnText = styled.div`
   width: 75%;
 `;
 
-const Branch = styled(Text)``;
-const Model = styled(Branch)``;
-const Price = styled(Branch)`
+const Brand = styled(Text)``;
+const Model = styled(Brand)``;
+const Price = styled(Brand)`
   margin: auto 0px;
   color: #06c;
   text-align: end;

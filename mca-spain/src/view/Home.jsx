@@ -1,8 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import BreadCrumbs from '../components/BreadCrumbs';
+import Item from '../components/Item';
+import { url } from '../utils/url';
 
 function Home() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getApiProduct();
+  }, []);
+
+  const getApiProduct = () => {
+    axios
+      .get(`${url}/api/product`)
+      .then((response) => {
+        setProducts(response.data);
+      })
+      .catch((e) => {
+        console.log(e);
+      });
+  };
 
   return (
     <Container>
@@ -14,6 +33,18 @@ function Home() {
           },
         ]}
       />
+      <ContainerItem>
+        {products.length > 0 &&
+          products.map((product, index) => (
+            <Item
+              key={'product' + index}
+              urlImg={product.imgUrl}
+              brand={product.brand}
+              model={product.model}
+              price={product.price}
+            />
+          ))}
+      </ContainerItem>
     </Container>
   );
 }
@@ -27,4 +58,9 @@ const Container = styled.section`
   gap: 32px;
   margin: 0 auto;
   padding: 24px 42px;
+`;
+
+const ContainerItem = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(325px, 1fr));
 `;
