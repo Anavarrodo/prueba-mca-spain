@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import React, { useEffect, useState, useCallback } from 'react';
+import styled from 'styled-components';
 import Cross from '../assets/svg/Cross';
 
 const Search = ({ value, onChange, className }) => {
   const [valueInput, setValueInput] = useState(value);
-  //  FOCUS AL APARECER EL INPUT
+  const autoFocus = useCallback(i => i ? i.focus() : null, [])
+
   useEffect(() => {
     setValueInput(value);
   }, [value]);
@@ -15,20 +16,20 @@ const Search = ({ value, onChange, className }) => {
   };
 
   const reset = () => {
-    setValueInput("");
-    onChange && onChange("");
+    setValueInput('');
+    onChange && onChange('');
   };
 
   return (
     <Container className={className}>
       <InputCustom
-        autofocus
-        placeholder="Buscar"
-        value={valueInput || ""}
+        ref={autoFocus}
+        placeholder='Buscar'
+        value={valueInput || ''}
         onChange={(e) => eventChange(e)}
       />
       <Icon onClick={() => reset()}>
-        <Cross id="cross" />
+        <Cross/>
       </Icon>
     </Container>
   );
@@ -38,12 +39,9 @@ export default Search;
 
 const Container = styled.div`
   position: relative;
-
 `;
 
-const InputCustom = styled.input.attrs(autofocus => ({
-  autofocus: autofocus
-}))`
+const InputCustom = styled.input`
   width: 100%;
   height: 42px;
   background: #ffffff;

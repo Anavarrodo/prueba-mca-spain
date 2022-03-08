@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import axios from 'axios';
 import BreadCrumbs from '../components/BreadCrumbs';
@@ -10,10 +12,13 @@ import { url } from '../utils/url';
 import useResponsive from '../utils/useResponsive';
 import Mobile from '../assets/svg/Mobile';
 import Lens from '../assets/svg/Lens';
+import { setProducts } from '../redux/actions/productAction';
 
-function Home() {
-  const [productsOriginal, setProductsOriginal] = useState([]);
-  const [productsFilter, setProductsFilter] = useState([]);
+function Home({ actions, productsReducers }) {
+  const [productsOriginal, setProductsOriginal] = useState(
+    productsReducers ?? []
+  );
+  const [productsFilter, setProductsFilter] = useState(productsReducers ?? []);
   const [value, setValue] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const mobile = useResponsive();
@@ -21,7 +26,7 @@ function Home() {
   useEffect(() => {
     setValue('');
     setShowSearch(false);
-    getApiProduct();
+    if (productsReducers.length === 0) getApiProduct();
   }, []);
 
   const onChangeSearch = (e) => {
@@ -40,6 +45,7 @@ function Home() {
       .then((response) => {
         setProductsOriginal(response.data);
         setProductsFilter(response.data);
+        actions.setProducts([response.data]);
       })
       .catch((e) => {
         // MOSTRAR MENSAJE DE ERROR EN LA VISTA 500 y 504
@@ -86,7 +92,7 @@ function Home() {
             <Mobile />
             <Text text={'SIN RESULTADOS DE BÚSQUEDA'} />
             <Text
-              text={`NO SE HAN ENCONTRADO RESULTADOS PARA LA BÚSQUEDA: ${value}`}
+              text={`NO SE HAN ENCONTRADO RESULTADOS PARA LA BÚSQUEDA: '${value}'`}
             />
           </ContainerMessage>
         )}
@@ -106,8 +112,11 @@ function Home() {
     );
   }
 }
-
-export default Home;
+const mapStateToProps = ({ productsReducers }) => ({ productsReducers });
+const matchDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators({ setProducts }, dispatch),
+});
+export default connect(mapStateToProps, matchDispatchToProps)(Home);
 
 const ContainerLoading = styled.div`
   display: flex;
@@ -136,13 +145,14 @@ const ContainerTextSearch = styled.div`
   cursor: pointer;
   display: flex;
   align-items: center;
+  margin: auto 0px;
 `;
+
 const TextSearch = styled(Text)`
   margin-left: 8px;
 `;
 
 const Searcher = styled.div``;
-
 const CustomSearch = styled(Search)``;
 
 const ContainerMessage = styled.div`
