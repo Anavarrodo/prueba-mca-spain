@@ -1,11 +1,14 @@
-import React from 'react';
-import styled from 'styled-components';
-import Buy from '../assets/svg/Buy';
+import React from "react";
+import styled from "styled-components";
+import Buy from "../assets/svg/Buy";
+import Text from "./Text";
 
-const Header = ({ brand }) => {
+const Header = ({ brand, onClick }) => {
   return (
     <Container>
-      <Brand>{brand}</Brand>
+      <Link onClick={() => onClick && onClick()}>
+        <Brand text={brand} />
+      </Link>
       <Buy />
     </Container>
   );
@@ -22,10 +25,12 @@ const Container = styled.div`
   padding: 0px 42px;
 `;
 
-const Brand = styled.h1`
-  font-size: 12px;
-  font-family: 'Montserrat-Regular';
-  font-weight: 500;
+const Link = styled.div`
+  display: flex;
+  cursor: pointer;
+`;
+
+const Brand = styled(Text)`
   color: #d7d7d7;
-  margin: auto 0px;
+  margin: auto;
 `;

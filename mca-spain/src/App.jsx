@@ -3,12 +3,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { ROOT_PATH, HOME_PATH, DETAIL_PATH } from './utils/paths';
 import Home from './view/Home';
 import Detail from './view/Detail';
-import Header from './components/Header';
 
 function App() {
   return (
-    <>
-      <Header brand='Phone Store' />
       <BrowserRouter>
         <Routes>
           <Route path={ROOT_PATH} exact element={<Home />} />
@@ -16,7 +13,6 @@ function App() {
           <Route path={DETAIL_PATH} element={<Detail />} />
         </Routes>
       </BrowserRouter>
-    </>
   );
 }
 export default App;

@@ -40,13 +40,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   gap: 15px;
-  height: 18px;
 `;
 
 const CrumbLeft = styled.div`
   height: 18px;
-  margin: -4px 20px 0px 0px;
-  width: 12px;
+  margin: -5px -2px 0px 0px;
+  width: auto;
 `;
 
 const CrumbRight = styled(CrumbLeft)`

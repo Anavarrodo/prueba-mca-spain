@@ -27,7 +27,6 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
-  height: 280px;
   &:hover {
     opacity: 0.5;
     cursor: pointer;

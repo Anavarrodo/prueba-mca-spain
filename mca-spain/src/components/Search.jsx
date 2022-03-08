@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import Cross from '../assets/svg/Cross';
 
-const Search = ({ value, onChange }) => {
+const Search = ({ value, onChange, className }) => {
   const [valueInput, setValueInput] = useState(value);
-
+  //  FOCUS AL APARECER EL INPUT
   useEffect(() => {
     setValueInput(value);
   }, [value]);
@@ -13,13 +14,22 @@ const Search = ({ value, onChange }) => {
     onChange && onChange(e.target.value);
   };
 
+  const reset = () => {
+    setValueInput("");
+    onChange && onChange("");
+  };
+
   return (
-    <Container>
+    <Container className={className}>
       <InputCustom
+        autofocus
         placeholder="Buscar"
         value={valueInput || ""}
         onChange={(e) => eventChange(e)}
       />
+      <Icon onClick={() => reset()}>
+        <Cross id="cross" />
+      </Icon>
     </Container>
   );
 };
@@ -27,20 +37,39 @@ const Search = ({ value, onChange }) => {
 export default Search;
 
 const Container = styled.div`
-  max-width: 300px;
   position: relative;
+
 `;
 
-const InputCustom = styled.input`
+const InputCustom = styled.input.attrs(autofocus => ({
+  autofocus: autofocus
+}))`
   width: 100%;
   height: 42px;
   background: #ffffff;
-  border: 1px solid #ebebeb;
+  border-bottom: 1px solid #333333;
+  border-right: none;
+  border-left: none;
+  border-top: none;
   box-sizing: border-box;
-  border-radius: 6px;
   color: #333333;
   padding-left: 12px;
   &:focus {
     outline: none;
+  }
+  ::placeholder {
+    font-family: Montserrat-Regular;
+    font-size: 12px;
+    color: #333333;
+  }
+`;
+
+const Icon = styled.div`
+  && > svg {
+    position: absolute;
+    right: 22px;
+    top: 16px;
+    cursor: pointer;
+    pointer-events: all;
   }
 `;
