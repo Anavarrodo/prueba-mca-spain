@@ -12,7 +12,7 @@ function Detail() {
         selectLastBreadCrumb={true}
         crumbs={[
           {
-            title: 'Store',
+            title: 'Listado de productos',
             onClick: () => history.push(ROOT_PATH),
           }, {title: 'Detalle del producto'}
         ]}

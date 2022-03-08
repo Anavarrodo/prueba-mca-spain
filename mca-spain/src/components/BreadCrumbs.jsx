@@ -1,14 +1,14 @@
-import React, { Fragment } from "react";
-import styled from "styled-components";
-import ArrowNavegation from "../assets/svg/ArrowNavegation";
-import Text from "./Text";
+import React, { Fragment } from 'react';
+import styled from 'styled-components';
+import ArrowNavegation from '../assets/svg/ArrowNavegation';
+import Text from './Text';
 
 const BreadCrumbs = ({ crumbs, selectLastBreadCrumb }) => {
   return (
     <Container>
       {crumbs.map((element, index) => {
         return (
-          <Fragment key={"crumb" + index}>
+          <Fragment key={'crumb' + index}>
             {index === 0 ? (
               <>
                 <CrumbLeft onClick={() => element.onClick && element.onClick()}>
@@ -56,8 +56,7 @@ const InitialCrumb = styled(Text)`
   &:hover {
     ${({ hover }) =>
       hover &&
-      `
-        font-size: 14px;
+      `text-decoration: underline #333333;
         cursor: pointer;
     `}
   }
@@ -65,6 +64,6 @@ const InitialCrumb = styled(Text)`
 
 const Crumb = styled(Text)`
   height: 18px;
-  color: ${({ selected }) => (selected ? "#06c" : "333333")};
-  cursor: ${({ selected }) => (selected ? "default" : "pointer")};
+  color: ${({ selected }) => (selected ? '#06c' : '333333')};
+  cursor: ${({ selected }) => (selected ? 'default' : 'pointer')};
 `;
