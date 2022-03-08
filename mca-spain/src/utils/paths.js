@@ -1,5 +1,4 @@
 const ROOT_PATH = '/';
-const HOME_PATH = '/home';
-const DETAIL_PATH = '/home/detail';
+const DETAIL_PATH = '/detail';
 
-export { ROOT_PATH, HOME_PATH, DETAIL_PATH };
+export { ROOT_PATH, DETAIL_PATH };

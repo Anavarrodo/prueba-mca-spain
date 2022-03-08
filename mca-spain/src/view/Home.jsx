@@ -1,28 +1,25 @@
-import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import axios from "axios";
-import BreadCrumbs from "../components/BreadCrumbs";
-import Item from "../components/Item";
-import Search from "../components/Search";
-import { url } from "../utils/url";
-import Loading from "../components/Loading";
-import Mobile from "../assets/svg/Mobile";
-import Lens from "../assets/svg/Lens";
-import Text from "../components/Text";
-import useResponsive from "../utils/useResponsive";
-import Header from '../components/Header';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
+import axios from 'axios';
+import BreadCrumbs from '../components/BreadCrumbs';
+import Item from '../components/Item';
+import Search from '../components/Search';
+import Loading from '../components/Loading';
+import Text from '../components/Text';
+import { url } from '../utils/url';
+import useResponsive from '../utils/useResponsive';
+import Mobile from '../assets/svg/Mobile';
+import Lens from '../assets/svg/Lens';
 
 function Home() {
   const [productsOriginal, setProductsOriginal] = useState([]);
   const [productsFilter, setProductsFilter] = useState([]);
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const mobile = useResponsive();
-  const navigate = useNavigate();
 
   useEffect(() => {
-    setValue("");
+    setValue('');
     setShowSearch(false);
     getApiProduct();
   }, []);
@@ -57,22 +54,20 @@ function Home() {
       </ContainerLoading>
     );
   } else {
-    return (<>
-      <Header brand='Phone Store' onClick={() => navigate('/home')}/>
+    return (
       <Container>
-              
         <SubHeader>
           <BreadCrumbs
             selectLastBreadCrumb={true}
             crumbs={[
               {
-                title: "Listado de productos",
+                title: 'Listado de productos',
               },
             ]}
           />
           <ContainerTextSearch onClick={() => setShowSearch(true)}>
             <Lens />
-            <TextSearch text="Buscar" />
+            <TextSearch text='Buscar' />
           </ContainerTextSearch>
         </SubHeader>
 
@@ -89,7 +84,7 @@ function Home() {
         {productsFilter.length === 0 && (
           <ContainerMessage>
             <Mobile />
-            <Text text={"SIN RESULTADOS DE BÚSQUEDA"} />
+            <Text text={'SIN RESULTADOS DE BÚSQUEDA'} />
             <Text
               text={`NO SE HAN ENCONTRADO RESULTADOS PARA LA BÚSQUEDA: ${value}`}
             />
@@ -99,7 +94,7 @@ function Home() {
           {productsFilter.length > 0 &&
             productsFilter.map((product, index) => (
               <Item
-                key={"product" + index}
+                key={'product' + index}
                 urlImg={product.imgUrl}
                 brand={product.brand}
                 model={product.model}
@@ -108,7 +103,6 @@ function Home() {
             ))}
         </ContainerItem>
       </Container>
-      </>
     );
   }
 }
@@ -147,8 +141,7 @@ const TextSearch = styled(Text)`
   margin-left: 8px;
 `;
 
-const Searcher = styled.div`
-`;
+const Searcher = styled.div``;
 
 const CustomSearch = styled(Search)``;
 
@@ -160,7 +153,7 @@ const ContainerMessage = styled.div`
 `;
 
 const ContainerItem = styled.div`
-  display: ${({ mobile }) => (mobile ? "flex" : "grid")};
-  flex-direction: ${({ mobile }) => (mobile ? "column" : "row")};
+  display: ${({ mobile }) => (mobile ? 'flex' : 'grid')};
+  flex-direction: ${({ mobile }) => (mobile ? 'column' : 'row')};
   grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
 `;

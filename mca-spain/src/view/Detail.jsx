@@ -1,11 +1,11 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { ROOT_PATH } from '../utils/paths';
 import styled from 'styled-components';
 import BreadCrumbs from '../components/BreadCrumbs';
-import { HOME_PATH } from '../utils/paths';
-import { useNavigate } from 'react-router-dom';
 
 function Detail() {
-  const navigate = useNavigate();
+  const history = useHistory();
   return (
     <Container>
       <BreadCrumbs
@@ -13,7 +13,7 @@ function Detail() {
         crumbs={[
           {
             title: 'Store',
-            onClick: () => navigate(HOME_PATH),
+            onClick: () => history.push(ROOT_PATH),
           }, {title: 'Detalle del producto'}
         ]}
       />
