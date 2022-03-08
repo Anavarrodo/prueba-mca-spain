@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import axios from 'axios';
+import { url } from '../utils/url';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Item from '../components/Item';
 import Search from '../components/Search';
 import Loading from '../components/Loading';
 import Text from '../components/Text';
-import { url } from '../utils/url';
 import useResponsive from '../utils/useResponsive';
 import Mobile from '../assets/svg/Mobile';
 import Lens from '../assets/svg/Lens';
-import { setProducts } from '../redux/actions/productAction';
+import { setProducts } from '../redux/actions/productsActions';
+import { removeCurrentProduct } from '../redux/actions/currentProductActions';
+import { DETAIL_PATH } from '../utils/paths';
 
 function Home({ actions, productsReducers }) {
+  const history = useHistory();
   const [productsOriginal, setProductsOriginal] = useState(
     productsReducers ?? []
   );
@@ -26,6 +30,7 @@ function Home({ actions, productsReducers }) {
   useEffect(() => {
     setValue('');
     setShowSearch(false);
+    actions.removeCurrentProduct();
     if (productsReducers.length === 0) getApiProduct();
   }, []);
 
@@ -101,6 +106,8 @@ function Home({ actions, productsReducers }) {
             productsFilter.map((product, index) => (
               <Item
                 key={'product' + index}
+                
+                onClick={() => history.push({ pathname: `${DETAIL_PATH}/${product.id}`, state: { id: product.id } })}
                 urlImg={product.imgUrl}
                 brand={product.brand}
                 model={product.model}
@@ -112,9 +119,10 @@ function Home({ actions, productsReducers }) {
     );
   }
 }
+
 const mapStateToProps = ({ productsReducers }) => ({ productsReducers });
 const matchDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ setProducts }, dispatch),
+  actions: bindActionCreators({ setProducts, removeCurrentProduct }, dispatch),
 });
 export default connect(mapStateToProps, matchDispatchToProps)(Home);
 
@@ -154,7 +162,6 @@ const TextSearch = styled(Text)`
 
 const Searcher = styled.div``;
 const CustomSearch = styled(Search)``;
-
 const ContainerMessage = styled.div`
   display: flex;
   gap: 16px;

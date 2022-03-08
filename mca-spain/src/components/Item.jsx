@@ -1,15 +1,12 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
-import { DETAIL_PATH } from '../utils/paths';
 import styled from 'styled-components';
 import Text from './Text';
 import LazyLoad from 'react-lazyload';
 
-const Item = ({ urlImg, brand, model, price }) => {
-  const history = useHistory();
+const Item = ({ urlImg, brand, model, price, onClick }) => {
   
   return (
-    <Container onClick={() => history.push(DETAIL_PATH)}>
+    <Container onClick={() => onClick && onClick()}>
       <LazyLoad height={200} once offset={-100}>
         <Image src={urlImg} />
       </LazyLoad>

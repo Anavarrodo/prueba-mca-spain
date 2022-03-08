@@ -1,4 +1,4 @@
-import { productsType } from '../actions/productAction';
+import { productsType } from '../actions/productsActions';
 
 const PRODUCTS_KEY = 'PRODUCTS';
 

@@ -15,7 +15,7 @@ function App() {
       <Header brand='Phone Store' onClick={() => history.push(ROOT_PATH)} />
       <main>
         <Route exact path={ROOT_PATH} component={Home} />
-        <Route path={DETAIL_PATH} component={Detail} />
+        <Route path={`${DETAIL_PATH}/:id`} component={Detail} />
       </main>
     </Provider>
   );
