@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from 'styled-components';
 import Text from './Text';
-import LazyLoad from 'react-lazyload';
 
 const Item = ({ urlImg, brand, model, price, onClick }) => {
   
   return (
     <Container onClick={() => onClick && onClick()}>
-      <LazyLoad height={200} once offset={-100}>
+
         <Image src={urlImg} />
-      </LazyLoad>
+
       <Columns>
         <ColumnText>
           <Brand text={brand} />
