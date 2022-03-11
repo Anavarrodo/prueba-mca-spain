@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
-import { useHistory, useLocation } from "react-router-dom";
-import { connect } from "react-redux";
-import { bindActionCreators } from "redux";
-import { setCurrentProduct } from "../redux/actions/currentProductActions";
-import axios from "axios";
-import { url } from "../utils/url";
-import { ROOT_PATH } from "../utils/paths";
-import styled from "styled-components";
-import BreadCrumbs from "../components/BreadCrumbs";
-import Image from "../components/Image";
-import DescriptionProduct from "../components/DescriptionProduct";
-import Text from "../components/Text";
-import useResponsive from "../utils/useResponsive";
-import Loading from "../components/Loading";
+import React, { useEffect, useState } from 'react';
+import { useHistory, useLocation } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { setCurrentProduct } from '../redux/actions/currentProductActions';
+import axios from 'axios';
+import { url } from '../utils/url';
+import { ROOT_PATH } from '../utils/paths';
+import styled from 'styled-components';
+import BreadCrumbs from '../components/BreadCrumbs';
+import Image from '../components/Image';
+import DescriptionProduct from '../components/DescriptionProduct';
+import Text from '../components/Text';
+import useResponsive from '../utils/useResponsive';
+import Loading from '../components/Loading';
+import ContainerColors from '../components/ContainerColors';
+import ContainerStorage from '../components/ContainerStorage';
 
 function Detail({ actions, currentProductReducers }) {
   const history = useHistory();
@@ -23,7 +25,10 @@ function Detail({ actions, currentProductReducers }) {
   const [dataDescription, setDataDescription] = useState(
     currentProductReducers.specifications ?? []
   );
-
+  const [colorSelected, setColorSelected] = useState('');
+  const [storageSelected, setStorageSelected] = useState('');
+  console.log(colorSelected);
+  console.log(storageSelected);
   useEffect(() => {
     if (Object.keys(currentProductReducers).length === 0)
       getCurrentProduct(state.id);
@@ -41,19 +46,29 @@ function Detail({ actions, currentProductReducers }) {
           response.data.battery,
           response.data.primaryCamera,
           response.data.dimentions,
-          response.data.weight + " gr",
+          response.data.weight + ' gr',
         ];
         setProduct(response.data);
         setDataDescription(specifications);
         actions.setCurrentProduct({
           product: response.data,
-          specifications: specifications
+          specifications: specifications,
         });
       })
       .catch((e) => {
         // MOSTRAR MENSAJE DE ERROR EN LA VISTA 500 y 504
         console.log(e);
       });
+  };
+
+  const handleChangeColor = (code) => {
+    // GUARDAR COLOR SELECCIONADO
+    setColorSelected(code);
+  };
+
+  const handleChangeStorage = (code) => {
+    // GUARDAR COLOR SELECCIONADO
+    setStorageSelected(code);
   };
 
   if (Object.keys(currentProductReducers).length === 0) {
@@ -69,12 +84,12 @@ function Detail({ actions, currentProductReducers }) {
           selectLastBreadCrumb={true}
           crumbs={[
             {
-              title: "Listado de productos",
+              title: 'Listado de productos',
               onClick: () => {
                 history.push(ROOT_PATH);
               },
             },
-            { title: "Detalle del producto" },
+            { title: 'Detalle del producto' },
           ]}
         />
         <ProductInfo mobile={mobile}>
@@ -82,7 +97,9 @@ function Detail({ actions, currentProductReducers }) {
             text={`${product.brand} ${product.model}`}
             mobile={mobile}
           />
-         {product.price !== '' && <CustomText text={`${product.price} EUR`} mobile={mobile} />}
+          {product.price !== '' && (
+            <CustomText text={`${product.price} EUR`} mobile={mobile} />
+          )}
         </ProductInfo>
         <Columns mobile={mobile}>
           <FirstColumn>
@@ -93,7 +110,21 @@ function Detail({ actions, currentProductReducers }) {
               nameProduct={`Compra un ${product.brand} ${product.model}`}
               dataDescription={dataDescription}
             />
-            <RowActions>Acciones</RowActions>
+            <RowActions>
+              <Title mobile={mobile} text='Acciones' />
+              <ContainerActions>
+                <ContainerColors
+                  onClick={(e) => handleChangeColor(e)}
+                  colors={product.options.colors}
+                  title='Elige un acabado'
+                />
+                <ContainerStorage
+                  onClick={(e) => handleChangeStorage(e)}
+                  title='Elige la capacidad'
+                  storages={product.options.storages}
+                />
+              </ContainerActions>
+            </RowActions>
           </SecondColumn>
         </Columns>
       </Container>
@@ -138,7 +169,7 @@ const ContainerLoading = styled.div`
 `;
 
 const ProductInfo = styled.div`
-  height: ${({ mobile }) => (mobile ? "25px" : "42px")};
+  height: ${({ mobile }) => (mobile ? '25px' : '42px')};
   border-bottom: 1px solid #333333;
   display: flex;
   padding-bottom: 18px;
@@ -147,14 +178,14 @@ const ProductInfo = styled.div`
 `;
 
 const CustomText = styled(Text)`
-  font-size: ${({ mobile }) => !mobile && "18px"};
+  font-size: ${({ mobile }) => !mobile && '18px'};
 `;
 
 const Columns = styled.div`
   display: flex;
   justify-content: center;
-  flex-direction: ${({ mobile }) => (mobile ? "column" : "row")};
-  padding: ${({ mobile }) => !mobile && "42px 120px"};
+  flex-direction: ${({ mobile }) => (mobile ? 'column' : 'row')};
+  padding: ${({ mobile }) => !mobile && '42px 120px'};
 `;
 
 const FirstColumn = styled.div`
@@ -163,7 +194,18 @@ const FirstColumn = styled.div`
 
 const SecondColumn = styled.div`
   width: 80%;
-  ${({ mobile }) => mobile && "margin: auto;"};
+  ${({ mobile }) => mobile && 'margin: auto;'};
 `;
 
-const RowActions = styled.div``;
+const RowActions = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+`;
+
+const Title = styled(Text)`
+  margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
+`;
+const ContainerActions = styled.div`
+  display: flex;
+`;
