@@ -16,11 +16,12 @@ const ContainerStorage = ({ className, storages, title, onClick }) => {
   };
 
   return (
-    <ContainerColor className={className} mobile={mobile}>
+    <Storages className={className} mobile={mobile}>
       <TitleColor text={title} />
       <Container>
         {storages.map((storage, index) => (
           <CustomMiniCard
+            mobile={mobile}
             key={'storage' + index}
             onClick={() => {
               clickSelected(storage.code, index);
@@ -34,14 +35,14 @@ const ContainerStorage = ({ className, storages, title, onClick }) => {
           </CustomMiniCard>
         ))}
       </Container>
-    </ContainerColor>
+    </Storages>
   );
 };
 
 export default ContainerStorage;
 
-const ContainerColor = styled.div`
-  margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
+const Storages = styled.div`
+  margin: ${({ mobile }) => !mobile && '17px'};
 `;
 const TitleColor = styled(Text)``;
 
@@ -52,7 +53,7 @@ const Container = styled.div`
 
 const CustomMiniCard = styled(MiniCard)`
   height: 45px;
-  width: 106px;
+  width: ${({ mobile }) => mobile ? '70px' : '106px'};
   cursor: pointer;
 `;
 

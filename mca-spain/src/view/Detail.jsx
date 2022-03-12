@@ -15,6 +15,7 @@ import useResponsive from '../utils/useResponsive';
 import Loading from '../components/Loading';
 import ContainerColors from '../components/ContainerColors';
 import ContainerStorage from '../components/ContainerStorage';
+import Button from '../components/Button';
 
 function Detail({ actions, currentProductReducers }) {
   const history = useHistory();
@@ -29,6 +30,7 @@ function Detail({ actions, currentProductReducers }) {
   const [storageSelected, setStorageSelected] = useState('');
   console.log(colorSelected);
   console.log(storageSelected);
+
   useEffect(() => {
     if (Object.keys(currentProductReducers).length === 0)
       getCurrentProduct(state.id);
@@ -50,6 +52,10 @@ function Detail({ actions, currentProductReducers }) {
         ];
         setProduct(response.data);
         setDataDescription(specifications);
+        if (response.data.options.colors.length === 1)
+          setColorSelected(response.data.options.colors[0].code);
+        if (response.data.options.storages.length === 1)
+          setStorageSelected(response.data.options.storages[0].code);
         actions.setCurrentProduct({
           product: response.data,
           specifications: specifications,
@@ -112,19 +118,28 @@ function Detail({ actions, currentProductReducers }) {
             />
             <RowActions>
               <Title mobile={mobile} text='Acciones' />
-              <ContainerActions>
-                <ContainerColors
+              <ContainerActions mobile={mobile}>
+                <CustomContainerColors
+                  mobile={mobile}
                   onClick={(e) => handleChangeColor(e)}
                   colors={product.options.colors}
                   title='Elige un acabado'
                 />
-                <ContainerStorage
+                <CustomContainerStorage
+                  mobile={mobile}
                   onClick={(e) => handleChangeStorage(e)}
                   title='Elige la capacidad'
                   storages={product.options.storages}
                 />
               </ContainerActions>
             </RowActions>
+            <ContainerButton mobile={mobile}>
+              <Button
+                text='Añadir al carrito'
+                disabled={colorSelected === '' || storageSelected === ''}
+                onClick={() => console.log('clcik')}
+              />
+            </ContainerButton>
           </SecondColumn>
         </Columns>
       </Container>
@@ -204,8 +219,35 @@ const RowActions = styled.div`
 `;
 
 const Title = styled(Text)`
+color: #06c;
   margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
 `;
 const ContainerActions = styled.div`
   display: flex;
+  ${({ mobile }) => mobile && `flex-direction: column;`}
+`;
+
+const CustomContainerColors = styled(ContainerColors)`
+  ${({ mobile }) =>
+    mobile &&
+    `    
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    `}
+`;
+
+const CustomContainerStorage = styled(ContainerStorage)`
+  ${({ mobile }) =>
+    mobile &&
+    `    
+      display: flex;
+      flex-direction: column;
+      align-items: center; 
+      margin-top: 24px;
+    `};
+`;
+
+const ContainerButton = styled.div`
+  ${({ mobile }) => mobile && 'display: flex;'}
 `;

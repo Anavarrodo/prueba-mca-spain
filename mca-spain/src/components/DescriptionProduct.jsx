@@ -17,14 +17,14 @@ const DescriptionProduct = ({ nameProduct, dataDescription }) => {
           return element === '' ||
             element === ' gr' ||
             element === '-' ? null : isObject ? (
-            <CustomMiniCard key={'element' + index} separation disabled>
+            <CustomMiniCard mobile={mobile} key={'element' + index} separation disabled>
               {' '}
               {element.map((e, i) => (
                 <Info key={'e' + i} text={e} />
               ))}
             </CustomMiniCard>
           ) : (
-            <CustomMiniCard key={'element' + index} disabled>
+            <CustomMiniCard mobile={mobile} key={'element' + index} disabled>
               <Info text={element} />
             </CustomMiniCard>
           );
@@ -49,6 +49,7 @@ const Title = styled(Text)`
 `;
 
 const Subtitle = styled(Text)`
+color: #06c;
   margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
 `;
 
@@ -61,7 +62,8 @@ const ContainerMiniCard = styled.div`
   align-items: center;
 `;
 const CustomMiniCard = styled(MiniCard)`
-  ${({ separation }) => separation && `flex-direction: column;`}
+  ${({ separation }) => separation && `flex-direction: column;`};
+  height: ${({ mobile }) => mobile && 'height: auto;'};
 `;
 
 const Info = styled(Text)`
