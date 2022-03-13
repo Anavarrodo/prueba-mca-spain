@@ -3,6 +3,7 @@ import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { setCurrentProduct } from '../redux/actions/currentProductActions';
+import { setSavedProducts } from '../redux/actions/savedProductsActions';
 import axios from 'axios';
 import { url } from '../utils/url';
 import { ROOT_PATH } from '../utils/paths';
@@ -68,13 +69,31 @@ function Detail({ actions, currentProductReducers }) {
   };
 
   const handleChangeColor = (code) => {
-    // GUARDAR COLOR SELECCIONADO
     setColorSelected(code);
   };
 
   const handleChangeStorage = (code) => {
-    // GUARDAR COLOR SELECCIONADO
     setStorageSelected(code);
+  };
+
+  const submit = () => {
+    axios
+      .post(`${url}/api/cart`, {
+        id: product.id,
+        colorCode: colorSelected,
+        storageCode: storageSelected,
+      })
+      .then(
+        (response) => {
+          if (response.status === 200) {
+            actions.setSavedProducts({ data: response.data });
+            history.push(ROOT_PATH);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   };
 
   if (Object.keys(currentProductReducers).length === 0) {
@@ -137,7 +156,7 @@ function Detail({ actions, currentProductReducers }) {
               <Button
                 text='Añadir al carrito'
                 disabled={colorSelected === '' || storageSelected === ''}
-                onClick={() => console.log('clcik')}
+                onClick={() => submit()}
               />
             </ContainerButton>
           </SecondColumn>
@@ -163,7 +182,10 @@ const mapStateToProps = ({ currentProductReducers }) => ({
   currentProductReducers,
 });
 const matchDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ setCurrentProduct }, dispatch),
+  actions: bindActionCreators(
+    { setCurrentProduct, setSavedProducts },
+    dispatch
+  ),
 });
 export default connect(mapStateToProps, matchDispatchToProps)(Detail);
 
@@ -219,7 +241,7 @@ const RowActions = styled.div`
 `;
 
 const Title = styled(Text)`
-color: #06c;
+  color: #06c;
   margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
 `;
 const ContainerActions = styled.div`
