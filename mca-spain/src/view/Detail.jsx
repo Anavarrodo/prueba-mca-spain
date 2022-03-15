@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { setCurrentProduct } from '../redux/actions/currentProductActions';
-import { setSavedProducts } from '../redux/actions/savedProductsActions';
 import axios from 'axios';
 import { url } from '../utils/url';
 import { ROOT_PATH } from '../utils/paths';
@@ -17,15 +13,17 @@ import Loading from '../components/Loading';
 import ContainerColors from '../components/ContainerColors';
 import ContainerStorage from '../components/ContainerStorage';
 import Button from '../components/Button';
+import useSessionStorage from '../utils/sessionStorage';
 
-function Detail({ actions, currentProductReducers }) {
+function Detail() {
   const history = useHistory();
   const location = useLocation();
   const { state } = location;
   const mobile = useResponsive(931);
-  const [product, setProduct] = useState(currentProductReducers.product ?? []);
-  const [dataDescription, setDataDescription] = useState(
-    currentProductReducers.specifications ?? []
+  const [product, setProduct] = useSessionStorage('currentProduct', []);
+  const [dataDescription, setDataDescription] = useSessionStorage(
+    'specifications',
+    []
   );
   const [colorSelected, setColorSelected] = useState('');
   const [storageSelected, setStorageSelected] = useState('');
@@ -33,8 +31,7 @@ function Detail({ actions, currentProductReducers }) {
   console.log(storageSelected);
 
   useEffect(() => {
-    if (Object.keys(currentProductReducers).length === 0)
-      getCurrentProduct(state.id);
+    if (Object.keys(product).length === 0) getCurrentProduct(state.id);
   }, []);
 
   const getCurrentProduct = (id) => {
@@ -57,10 +54,6 @@ function Detail({ actions, currentProductReducers }) {
           setColorSelected(response.data.options.colors[0].code);
         if (response.data.options.storages.length === 1)
           setStorageSelected(response.data.options.storages[0].code);
-        actions.setCurrentProduct({
-          product: response.data,
-          specifications: specifications,
-        });
       })
       .catch((e) => {
         // MOSTRAR MENSAJE DE ERROR EN LA VISTA 500 y 504
@@ -86,7 +79,6 @@ function Detail({ actions, currentProductReducers }) {
       .then(
         (response) => {
           if (response.status === 200) {
-            actions.setSavedProducts({ data: response.data });
             history.push(ROOT_PATH);
           }
         },
@@ -96,7 +88,7 @@ function Detail({ actions, currentProductReducers }) {
       );
   };
 
-  if (Object.keys(currentProductReducers).length === 0) {
+  if (product.length === 0) {
     return (
       <ContainerLoading>
         <Loading />
@@ -177,17 +169,7 @@ function Detail({ actions, currentProductReducers }) {
 //     </>
 //   );
 // }
-
-const mapStateToProps = ({ currentProductReducers }) => ({
-  currentProductReducers,
-});
-const matchDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators(
-    { setCurrentProduct, setSavedProducts },
-    dispatch
-  ),
-});
-export default connect(mapStateToProps, matchDispatchToProps)(Detail);
+export default Detail;
 
 const Container = styled.section`
   height: calc(100vh - 50px);

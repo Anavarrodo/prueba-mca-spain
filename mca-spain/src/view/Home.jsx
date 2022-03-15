@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import styled from 'styled-components';
 import axios from 'axios';
 import { url } from '../utils/url';
@@ -13,16 +11,16 @@ import Text from '../components/Text';
 import useResponsive from '../utils/useResponsive';
 import Mobile from '../assets/svg/Mobile';
 import Lens from '../assets/svg/Lens';
-import { setProducts } from '../redux/actions/productsActions';
-import { removeCurrentProduct } from '../redux/actions/currentProductActions';
 import { DETAIL_PATH } from '../utils/paths';
+import useSessionStorage from '../utils/sessionStorage';
 
-function Home({ actions, productsReducers }) {
+function Home() {
   const history = useHistory();
-  const [productsOriginal, setProductsOriginal] = useState(
-    productsReducers ?? []
+  const [productsOriginal, setProductsOriginal] = useSessionStorage(
+    'products',
+    []
   );
-  const [productsFilter, setProductsFilter] = useState(productsReducers ?? []);
+  const [productsFilter, setProductsFilter] = useSessionStorage('products', []);
   const [value, setValue] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const mobile = useResponsive();
@@ -30,8 +28,9 @@ function Home({ actions, productsReducers }) {
   useEffect(() => {
     setValue('');
     setShowSearch(false);
-    actions.removeCurrentProduct();
-    if (productsReducers.length === 0) getApiProduct();
+    window.sessionStorage.removeItem('currentProduct');
+    window.sessionStorage.removeItem('specifications');
+    if (productsOriginal.length === 0) getApiProduct();
   }, []);
 
   const onChangeSearch = (e) => {
@@ -50,7 +49,6 @@ function Home({ actions, productsReducers }) {
       .then((response) => {
         setProductsOriginal(response.data);
         setProductsFilter(response.data);
-        actions.setProducts([response.data]);
       })
       .catch((e) => {
         // MOSTRAR MENSAJE DE ERROR EN LA VISTA 500 y 504
@@ -58,7 +56,7 @@ function Home({ actions, productsReducers }) {
       });
   };
 
-  if (productsOriginal.length === 0) {
+  if (productsFilter.length === 0) {
     return (
       <ContainerLoading>
         <Loading />
@@ -106,8 +104,12 @@ function Home({ actions, productsReducers }) {
             productsFilter.map((product, index) => (
               <Item
                 key={'product' + index}
-                
-                onClick={() => history.push({ pathname: `${DETAIL_PATH}/${product.id}`, state: { id: product.id } })}
+                onClick={() =>
+                  history.push({
+                    pathname: `${DETAIL_PATH}/${product.id}`,
+                    state: { id: product.id },
+                  })
+                }
                 urlImg={product.imgUrl}
                 brand={product.brand}
                 model={product.model}
@@ -120,11 +122,7 @@ function Home({ actions, productsReducers }) {
   }
 }
 
-const mapStateToProps = ({ productsReducers }) => ({ productsReducers });
-const matchDispatchToProps = (dispatch) => ({
-  actions: bindActionCreators({ setProducts, removeCurrentProduct }, dispatch),
-});
-export default connect(mapStateToProps, matchDispatchToProps)(Home);
+export default Home;
 
 const ContainerLoading = styled.div`
   display: flex;
