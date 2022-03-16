@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useResponsive from '../utils/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 
 const Box = ({ className, onClick, children }) => {
   const mobile = useResponsive(931);

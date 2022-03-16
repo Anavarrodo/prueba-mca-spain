@@ -14,7 +14,6 @@ export const getColor = (color) => {
       return '#0000FF';
     case 'black/silver':
       return 'linear-gradient(90deg, #000000, #C0C0C0)';
-    //  { color: '#EBEBEB', label: 'ABIERTO', colorText: '#484848' }
     case 'various':
       return 'linear-gradient(90deg, #FFD700, #1C0000, #0000FF, #FFC0CB, #7FFFD4)';
     case 'red':

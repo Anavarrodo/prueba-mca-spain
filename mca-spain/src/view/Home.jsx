@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
-import axios from 'axios';
-import { url } from '../utils/url';
+import apiServices from '../services/api';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Item from '../components/Item';
 import Search from '../components/Search';
-import LoadingContainer from '../containers/LoadingContainer';
 import Text from '../components/Text';
-import useResponsive from '../utils/useResponsive';
-import Lens from '../assets/svg/Lens';
-import { DETAIL_PATH } from '../utils/paths';
-import useSessionStorage from '../utils/sessionStorage';
+import LoadingContainer from '../containers/LoadingContainer';
 import FilterContainer from '../containers/FilterContainer';
-function Home() {
+import useResponsive from '../hooks/useResponsive';
+import { PRODUCT_PATH } from '../utils/paths';
+import useSessionStorage from '../hooks/sessionStorage';
+import Lens from '../assets/svg/Lens';
+
+const Home = () => {
   const history = useHistory();
   const [productsOriginal, setProductsOriginal] = useSessionStorage(
     'products',
@@ -31,7 +31,7 @@ function Home() {
     window.sessionStorage.removeItem('specifications');
     window.sessionStorage.removeItem('colorSelected');
     window.sessionStorage.removeItem('storageSelected');
-    if (productsOriginal.length === 0) getApiProduct();
+    if (productsOriginal.length === 0) getProducts();
   }, []);
 
   const onChangeSearch = (e) => {
@@ -44,15 +44,14 @@ function Home() {
     setProductsFilter(filtered);
   };
 
-  const getApiProduct = () => {
-    axios
-      .get(`${url}/api/product`)
-      .then((response) => {
-        setProductsOriginal(response.data);
-        setProductsFilter(response.data);
+  const getProducts = () => {
+    apiServices
+      .getApiProducts()
+      .then((products) => {
+        setProductsOriginal(products);
+        setProductsFilter(products);
       })
       .catch((e) => {
-        // MOSTRAR MENSAJE DE ERROR EN LA VISTA 500 y 504
         console.log(e);
       });
   };
@@ -95,7 +94,7 @@ function Home() {
                 key={'product' + index}
                 onClick={() =>
                   history.push({
-                    pathname: `${DETAIL_PATH}/${product.id}`,
+                    pathname: `${PRODUCT_PATH}/${product.id}`,
                     state: { id: product.id },
                   })
                 }
@@ -109,7 +108,7 @@ function Home() {
       </Container>
     );
   }
-}
+};
 
 export default Home;
 

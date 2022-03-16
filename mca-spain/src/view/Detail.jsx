@@ -1,19 +1,18 @@
 import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import axios from 'axios';
-import { url } from '../utils/url';
+import apiServices from '../services/api';
 import { ROOT_PATH } from '../utils/paths';
 import styled from 'styled-components';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Image from '../components/Image';
 import DescriptionProductContainer from '../containers/DescriptionProductContainer';
 import Text from '../components/Text';
-import useResponsive from '../utils/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 import LoadingContainer from '../containers/LoadingContainer';
 import ColorsContainer from '../containers/ColorsContainer';
 import StoragesContainer from '../containers/StoragesContainer';
 import Button from '../components/Button';
-import useSessionStorage from '../utils/sessionStorage';
+import useSessionStorage from '../hooks/sessionStorage';
 
 function Detail() {
   const history = useHistory();
@@ -35,29 +34,29 @@ function Detail() {
   );
 
   useEffect(() => {
-    if (Object.keys(product).length === 0) getCurrentProduct(state.id);
+    if (Object.keys(product).length === 0) getCurrentProduct();
   }, []);
 
-  const getCurrentProduct = (id) => {
-    axios
-      .get(`${url}/api/product/${id}`)
-      .then((response) => {
+  const getCurrentProduct = () => {
+    apiServices
+      .getApiDetailsProduct(state.id)
+      .then((details) => {
         let specifications = [
-          response.data.cpu,
-          response.data.ram,
-          response.data.os,
-          response.data.displayResolution,
-          response.data.battery,
-          response.data.primaryCamera,
-          response.data.dimentions,
-          response.data.weight + ' gr',
+          details.cpu,
+          details.ram,
+          details.os,
+          details.displayResolution,
+          details.battery,
+          details.primaryCamera,
+          details.dimentions,
+          details.weight + ' gr',
         ];
-        setProduct(response.data);
+        setProduct(details);
         setDataDescription(specifications);
-        if (response.data.options.colors.length === 1)
-          setColorSelected(response.data.options.colors[0].code);
-        if (response.data.options.storages.length === 1)
-          setStorageSelected(response.data.options.storages[0].code);
+        if (details.options.colors.length === 1)
+          setColorSelected(details.options.colors[0].code);
+        if (details.options.storages.length === 1)
+          setStorageSelected(details.options.storages[0].code);
       })
       .catch((e) => {
         // MOSTRAR MENSAJE DE ERROR EN LA VISTA 500 y 504
@@ -74,22 +73,20 @@ function Detail() {
   };
 
   const submit = () => {
-    axios
-      .post(`${url}/api/cart`, {
-        id: product.id,
-        colorCode: colorSelected,
-        storageCode: storageSelected,
+    let body = {
+      id: product.id,
+      colorCode: colorSelected,
+      storageCode: storageSelected,
+    };
+    apiServices
+      .getApiCart(body)
+      .then((response) => {
+        console.log(response);
+        history.push(ROOT_PATH);
       })
-      .then(
-        (response) => {
-          if (response.status === 200) {
-            history.push(ROOT_PATH);
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      .catch((e) => {
+        console.log(e);
+      });
   };
 
   if (product.length === 0) {

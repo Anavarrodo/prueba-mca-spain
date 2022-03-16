@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import useResponsive from '../utils/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 import Text from '../components/Text';
 import MiniCard from '../components/MiniCard';
 

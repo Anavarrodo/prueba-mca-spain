@@ -1,1 +1,0 @@
-export const url = 'https://front-test-api.herokuapp.com';

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useResponsive from '../utils/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 
 const MiniCard = ({ className, children, onClick, disabled }) => {
   const mobile = useResponsive(931);

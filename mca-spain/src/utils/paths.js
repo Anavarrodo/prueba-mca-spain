@@ -1,4 +1,4 @@
 const ROOT_PATH = '/';
-const DETAIL_PATH = '/detail';
+const PRODUCT_PATH = '/product';
 
-export { ROOT_PATH, DETAIL_PATH };
+export { ROOT_PATH, PRODUCT_PATH };

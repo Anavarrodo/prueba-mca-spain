@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import useResponsive from '../utils/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 
 const Button = ({ text, disabled, onClick }) => {
   const mobile = useResponsive(931);

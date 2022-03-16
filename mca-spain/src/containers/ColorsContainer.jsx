@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Box from '../components/Box';
 import Circle from '../components/Circle';
-import useResponsive from '../utils/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 import Text from '../components/Text';
 import { getColor } from '../utils/functions';
 

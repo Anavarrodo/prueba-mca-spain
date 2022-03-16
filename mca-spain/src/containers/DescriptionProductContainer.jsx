@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Text from '../components/Text';
-import useResponsive from '../utils/useResponsive';
+import useResponsive from '../hooks/useResponsive';
 import MiniCard from '../components/MiniCard';
 
 const DescriptionProduct = ({ dataDescription }) => {
