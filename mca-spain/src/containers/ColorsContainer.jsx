@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import Box from "./Box";
-import Circle from "./Circle";
-import useResponsive from "../utils/useResponsive";
-import Text from "./Text";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import Box from '../components/Box';
+import Circle from '../components/Circle';
+import useResponsive from '../utils/useResponsive';
+import Text from '../components/Text';
 import { getColor } from '../utils/functions';
 
-const ContainerColors = ({ className, colors, title, onClick }) => {
+const ColorsContainer = ({ className, colors, title, onClick, seleccion }) => {
   const mobile = useResponsive(931);
   const [circleSelected, setCircleSelected] = useState();
   const [defaultSelected] = useState(colors.length === 1 ? true : false);
@@ -23,13 +23,16 @@ const ContainerColors = ({ className, colors, title, onClick }) => {
         {colors.map((color, index) => (
           <CustomBox
             defaultSelected={defaultSelected}
-            key={"color" + index}
-            selected={index === circleSelected}
+            key={'color' + index}
+            selected={color.code === seleccion || index === circleSelected}
             onClick={() => {
               clickSelected(color.code, index);
             }}
           >
-            <Circle color={getColor(color.name.toLowerCase())} nameColor={color.name}></Circle>
+            <Circle
+              color={getColor(color.name.toLowerCase())}
+              nameColor={color.name}
+            ></Circle>
           </CustomBox>
         ))}
       </Container>
@@ -37,10 +40,10 @@ const ContainerColors = ({ className, colors, title, onClick }) => {
   );
 };
 
-export default ContainerColors;
+export default ColorsContainer;
 
 const ContainerColor = styled.div`
-  margin: ${({ mobile }) => (mobile ? "auto" : "17px")};
+  margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
 `;
 const TitleColor = styled(Text)``;
 

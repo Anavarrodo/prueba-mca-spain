@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { url } from '../utils/url';
@@ -6,12 +6,12 @@ import { ROOT_PATH } from '../utils/paths';
 import styled from 'styled-components';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Image from '../components/Image';
-import DescriptionProduct from '../components/DescriptionProduct';
+import DescriptionProductContainer from '../containers/DescriptionProductContainer';
 import Text from '../components/Text';
 import useResponsive from '../utils/useResponsive';
-import Loading from '../components/Loading';
-import ContainerColors from '../components/ContainerColors';
-import ContainerStorage from '../components/ContainerStorage';
+import LoadingContainer from '../containers/LoadingContainer';
+import ColorsContainer from '../containers/ColorsContainer';
+import StoragesContainer from '../containers/StoragesContainer';
 import Button from '../components/Button';
 import useSessionStorage from '../utils/sessionStorage';
 
@@ -25,10 +25,14 @@ function Detail() {
     'specifications',
     []
   );
-  const [colorSelected, setColorSelected] = useState('');
-  const [storageSelected, setStorageSelected] = useState('');
-  console.log(colorSelected);
-  console.log(storageSelected);
+  const [colorSelected, setColorSelected] = useSessionStorage(
+    'colorSelected',
+    ''
+  );
+  const [storageSelected, setStorageSelected] = useSessionStorage(
+    'storageSelected',
+    ''
+  );
 
   useEffect(() => {
     if (Object.keys(product).length === 0) getCurrentProduct(state.id);
@@ -89,11 +93,7 @@ function Detail() {
   };
 
   if (product.length === 0) {
-    return (
-      <ContainerLoading>
-        <Loading />
-      </ContainerLoading>
-    );
+    return <LoadingContainer />;
   } else {
     return (
       <Container>
@@ -123,23 +123,28 @@ function Detail() {
             <Image src={product.imgUrl} />
           </FirstColumn>
           <SecondColumn mobile={mobile}>
-            <DescriptionProduct
-              nameProduct={`Compra un ${product.brand} ${product.model}`}
-              dataDescription={dataDescription}
+            <Title
+              text={`Compra un ${product.brand} ${product.model}`}
+              mobile={mobile}
             />
+            <Subtitle mobile={mobile} text='Especificaciones' />
+            <DescriptionProductContainer dataDescription={dataDescription} />
             <RowActions>
-              <Title mobile={mobile} text='Acciones' />
+              <Subtitle mobile={mobile} text='Acciones' />
               <ContainerActions mobile={mobile}>
-                <CustomContainerColors
+                <CustomColorsContainer
                   mobile={mobile}
+                  defaultSelect={colorSelected}
                   onClick={(e) => handleChangeColor(e)}
+                  seleccion={colorSelected}
                   colors={product.options.colors}
                   title='Elige un acabado'
                 />
-                <CustomContainerStorage
+                <CustomStoragesContainer
                   mobile={mobile}
                   onClick={(e) => handleChangeStorage(e)}
                   title='Elige la capacidad'
+                  seleccion={storageSelected}
                   storages={product.options.storages}
                 />
               </ContainerActions>
@@ -180,13 +185,6 @@ const Container = styled.section`
   padding: 24px 42px;
 `;
 
-const ContainerLoading = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: calc(100vh - 50px);
-`;
-
 const ProductInfo = styled.div`
   height: ${({ mobile }) => (mobile ? '25px' : '42px')};
   border-bottom: 1px solid #333333;
@@ -212,8 +210,10 @@ const FirstColumn = styled.div`
 `;
 
 const SecondColumn = styled.div`
+  display: flex;
+  flex-direction: column;
   width: 80%;
-  ${({ mobile }) => mobile && 'margin: auto;'};
+  margin: ${({ mobile }) => (mobile ? '20px auto' : 'margin: auto')};
 `;
 
 const RowActions = styled.div`
@@ -223,6 +223,12 @@ const RowActions = styled.div`
 `;
 
 const Title = styled(Text)`
+  font-size: ${({ mobile }) => !mobile && '40px'};
+  font-family: Montserrat-Bold;
+  text-align: ${({ mobile }) => mobile && 'center'};
+`;
+
+const Subtitle = styled(Text)`
   color: #06c;
   margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
 `;
@@ -231,7 +237,7 @@ const ContainerActions = styled.div`
   ${({ mobile }) => mobile && `flex-direction: column;`}
 `;
 
-const CustomContainerColors = styled(ContainerColors)`
+const CustomColorsContainer = styled(ColorsContainer)`
   ${({ mobile }) =>
     mobile &&
     `    
@@ -241,7 +247,7 @@ const CustomContainerColors = styled(ContainerColors)`
     `}
 `;
 
-const CustomContainerStorage = styled(ContainerStorage)`
+const CustomStoragesContainer = styled(StoragesContainer)`
   ${({ mobile }) =>
     mobile &&
     `    

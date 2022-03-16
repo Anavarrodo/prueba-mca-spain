@@ -6,14 +6,13 @@ import { url } from '../utils/url';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Item from '../components/Item';
 import Search from '../components/Search';
-import Loading from '../components/Loading';
+import LoadingContainer from '../containers/LoadingContainer';
 import Text from '../components/Text';
 import useResponsive from '../utils/useResponsive';
-import Mobile from '../assets/svg/Mobile';
 import Lens from '../assets/svg/Lens';
 import { DETAIL_PATH } from '../utils/paths';
 import useSessionStorage from '../utils/sessionStorage';
-
+import FilterContainer from '../containers/FilterContainer';
 function Home() {
   const history = useHistory();
   const [productsOriginal, setProductsOriginal] = useSessionStorage(
@@ -30,6 +29,8 @@ function Home() {
     setShowSearch(false);
     window.sessionStorage.removeItem('currentProduct');
     window.sessionStorage.removeItem('specifications');
+    window.sessionStorage.removeItem('colorSelected');
+    window.sessionStorage.removeItem('storageSelected');
     if (productsOriginal.length === 0) getApiProduct();
   }, []);
 
@@ -56,12 +57,8 @@ function Home() {
       });
   };
 
-  if (productsFilter.length === 0) {
-    return (
-      <ContainerLoading>
-        <Loading />
-      </ContainerLoading>
-    );
+  if (productsOriginal.length === 0) {
+    return <LoadingContainer />;
   } else {
     return (
       <Container>
@@ -90,15 +87,7 @@ function Home() {
             />
           </Searcher>
         )}
-        {productsFilter.length === 0 && (
-          <ContainerMessage>
-            <Mobile />
-            <Text text={'SIN RESULTADOS DE BÚSQUEDA'} />
-            <Text
-              text={`NO SE HAN ENCONTRADO RESULTADOS PARA LA BÚSQUEDA: '${value}'`}
-            />
-          </ContainerMessage>
-        )}
+        {productsFilter.length === 0 && <FilterContainer value={value} />}
         <ContainerItem mobile={mobile}>
           {productsFilter.length > 0 &&
             productsFilter.map((product, index) => (
@@ -123,13 +112,6 @@ function Home() {
 }
 
 export default Home;
-
-const ContainerLoading = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: calc(100vh - 50px);
-`;
 
 const Container = styled.section`
   height: calc(100vh - 50px);
@@ -160,13 +142,6 @@ const TextSearch = styled(Text)`
 
 const Searcher = styled.div``;
 const CustomSearch = styled(Search)``;
-const ContainerMessage = styled.div`
-  display: flex;
-  gap: 16px;
-  flex-direction: column;
-  align-items: center;
-`;
-
 const ContainerItem = styled.div`
   display: ${({ mobile }) => (mobile ? 'flex' : 'grid')};
   flex-direction: ${({ mobile }) => (mobile ? 'column' : 'row')};

@@ -4,6 +4,7 @@ import useResponsive from '../utils/useResponsive';
 
 const MiniCard = ({ className, children, onClick, disabled }) => {
   const mobile = useResponsive(931);
+  
   return (
     <Container
       disabled={disabled}

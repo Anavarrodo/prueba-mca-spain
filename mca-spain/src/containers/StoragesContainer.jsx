@@ -1,16 +1,21 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import useResponsive from '../utils/useResponsive';
-import Text from './Text';
-import MiniCard from './MiniCard';
+import Text from '../components/Text';
+import MiniCard from '../components/MiniCard';
 
-const ContainerStorage = ({ className, storages, title, onClick }) => {
+const StoragesContainer = ({
+  className,
+  storages,
+  title,
+  onClick,
+  seleccion,
+}) => {
   const mobile = useResponsive(931);
   const [circleSelected, setCircleSelected] = useState();
   const [defaultSelected] = useState(storages.length === 1 ? true : false);
 
   const clickSelected = (code, i) => {
-    console.log(code);
     setCircleSelected(i);
     onClick && onClick(code, i);
   };
@@ -21,6 +26,7 @@ const ContainerStorage = ({ className, storages, title, onClick }) => {
       <Container>
         {storages.map((storage, index) => (
           <CustomMiniCard
+            disabled={defaultSelected}
             mobile={mobile}
             key={'storage' + index}
             onClick={() => {
@@ -30,7 +36,7 @@ const ContainerStorage = ({ className, storages, title, onClick }) => {
             <Info
               text={storage.name !== ' ' ? storage.name : '-'}
               defaultSelected={defaultSelected}
-              selected={index === circleSelected}
+              selected={storage.code === seleccion || index === circleSelected}
             />
           </CustomMiniCard>
         ))}
@@ -39,7 +45,7 @@ const ContainerStorage = ({ className, storages, title, onClick }) => {
   );
 };
 
-export default ContainerStorage;
+export default StoragesContainer;
 
 const Storages = styled.div`
   margin: ${({ mobile }) => !mobile && '17px'};
@@ -53,7 +59,7 @@ const Container = styled.div`
 
 const CustomMiniCard = styled(MiniCard)`
   height: 45px;
-  width: ${({ mobile }) => mobile ? '70px' : '106px'};
+  width: ${({ mobile }) => (mobile ? '70px' : '106px')};
   cursor: pointer;
 `;
 

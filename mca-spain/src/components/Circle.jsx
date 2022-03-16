@@ -14,4 +14,7 @@ const Color = styled.span`
   border-radius: 50%;
   border: 1px solid #33333336;
   margin: auto;
+  &:hover {
+    box-shadow: ${({ disabled }) => !disabled && '2px 2px 5px #9999999e'};
+  }
 `;
