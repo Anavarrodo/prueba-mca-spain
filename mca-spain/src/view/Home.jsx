@@ -5,6 +5,7 @@ import apiServices from '../services/api';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Item from '../components/Item';
 import Search from '../components/Search';
+import Container from '../components/Container';
 import Text from '../components/Text';
 import LoadingContainer from '../containers/LoadingContainer';
 import FilterContainer from '../containers/FilterContainer';
@@ -12,6 +13,7 @@ import useResponsive from '../hooks/useResponsive';
 import { PRODUCT_PATH } from '../utils/paths';
 import useSessionStorage from '../hooks/sessionStorage';
 import Lens from '../assets/svg/Lens';
+import BugContainer from '../containers/BugContainer';
 
 const Home = () => {
   const history = useHistory();
@@ -22,6 +24,7 @@ const Home = () => {
   const [productsFilter, setProductsFilter] = useSessionStorage('products', []);
   const [value, setValue] = useState('');
   const [showSearch, setShowSearch] = useState(false);
+  const [showError, setShowError] = useState(false);
   const mobile = useResponsive();
 
   useEffect(() => {
@@ -52,11 +55,12 @@ const Home = () => {
         setProductsFilter(products);
       })
       .catch((e) => {
-        console.log(e);
+        if (e.response.status === 500 || e.response.status === 504)
+          setShowError(true);
       });
   };
 
-  if (productsOriginal.length === 0) {
+  if (productsOriginal.length === 0 && !showError) {
     return <LoadingContainer />;
   } else {
     return (
@@ -70,10 +74,10 @@ const Home = () => {
               },
             ]}
           />
-          <ContainerTextSearch onClick={() => setShowSearch(true)}>
+          {!showError && <ContainerTextSearch onClick={() => setShowSearch(true)}>
             <Lens />
             <TextSearch text='Buscar' />
-          </ContainerTextSearch>
+          </ContainerTextSearch>}
         </SubHeader>
 
         {showSearch && (
@@ -86,40 +90,35 @@ const Home = () => {
             />
           </Searcher>
         )}
-        {productsFilter.length === 0 && <FilterContainer value={value} />}
-        <ContainerItem mobile={mobile}>
-          {productsFilter.length > 0 &&
-            productsFilter.map((product, index) => (
-              <Item
-                key={'product' + index}
-                onClick={() =>
-                  history.push({
-                    pathname: `${PRODUCT_PATH}/${product.id}`,
-                    state: { id: product.id },
-                  })
-                }
-                urlImg={product.imgUrl}
-                brand={product.brand}
-                model={product.model}
-                price={product.price}
-              />
-            ))}
-        </ContainerItem>
+        {(productsFilter.length === 0 && !showError) && <FilterContainer value={value} />}
+        {showError ? (
+          <BugContainer />
+        ) : (
+          <ContainerItem mobile={mobile}>
+            {productsFilter.length > 0 &&
+              productsFilter.map((product, index) => (
+                <Item
+                  key={'product' + index}
+                  onClick={() =>
+                    history.push({
+                      pathname: `${PRODUCT_PATH}/${product.id}`,
+                      state: { id: product.id },
+                    })
+                  }
+                  urlImg={product.imgUrl}
+                  brand={product.brand}
+                  model={product.model}
+                  price={product.price}
+                />
+              ))}
+          </ContainerItem>
+        )}
       </Container>
     );
   }
 };
 
 export default Home;
-
-const Container = styled.section`
-  height: calc(100vh - 50px);
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  margin: 0 auto;
-  padding: 24px 42px;
-`;
 
 const SubHeader = styled.div`
   display: flex;

@@ -1,16 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import apiServices from '../services/api';
 import { ROOT_PATH } from '../utils/paths';
 import styled from 'styled-components';
 import BreadCrumbs from '../components/BreadCrumbs';
 import Image from '../components/Image';
+import Container from '../components/Container';
 import DescriptionProductContainer from '../containers/DescriptionProductContainer';
 import Text from '../components/Text';
 import useResponsive from '../hooks/useResponsive';
 import LoadingContainer from '../containers/LoadingContainer';
 import ColorsContainer from '../containers/ColorsContainer';
 import StoragesContainer from '../containers/StoragesContainer';
+import BugContainer from '../containers/BugContainer';
 import Button from '../components/Button';
 import useSessionStorage from '../hooks/sessionStorage';
 
@@ -32,6 +34,7 @@ function Detail() {
     'storageSelected',
     ''
   );
+  const [showError, setShowError] = useState(false);
 
   useEffect(() => {
     if (Object.keys(product).length === 0) getCurrentProduct();
@@ -59,8 +62,7 @@ function Detail() {
           setStorageSelected(details.options.storages[0].code);
       })
       .catch((e) => {
-        // MOSTRAR MENSAJE DE ERROR EN LA VISTA 500 y 504
-        console.log(e);
+        if(e.response.status === 500 || e.response.status === 504) setShowError(true);
       });
   };
 
@@ -89,7 +91,7 @@ function Detail() {
       });
   };
 
-  if (product.length === 0) {
+  if (product.length === 0 && !showError) {
     return <LoadingContainer />;
   } else {
     return (
@@ -106,55 +108,63 @@ function Detail() {
             { title: 'Detalle del producto' },
           ]}
         />
-        <ProductInfo mobile={mobile}>
-          <CustomText
-            text={`${product.brand} ${product.model}`}
-            mobile={mobile}
-          />
-          {product.price !== '' && (
-            <CustomText text={`${product.price} EUR`} mobile={mobile} />
-          )}
-        </ProductInfo>
-        <Columns mobile={mobile}>
-          <FirstColumn>
-            <Image src={product.imgUrl} />
-          </FirstColumn>
-          <SecondColumn mobile={mobile}>
-            <Title
-              text={`Compra un ${product.brand} ${product.model}`}
-              mobile={mobile}
-            />
-            <Subtitle mobile={mobile} text='Especificaciones' />
-            <DescriptionProductContainer dataDescription={dataDescription} />
-            <RowActions>
-              <Subtitle mobile={mobile} text='Acciones' />
-              <ContainerActions mobile={mobile}>
-                <CustomColorsContainer
-                  mobile={mobile}
-                  defaultSelect={colorSelected}
-                  onClick={(e) => handleChangeColor(e)}
-                  seleccion={colorSelected}
-                  colors={product.options.colors}
-                  title='Elige un acabado'
-                />
-                <CustomStoragesContainer
-                  mobile={mobile}
-                  onClick={(e) => handleChangeStorage(e)}
-                  title='Elige la capacidad'
-                  seleccion={storageSelected}
-                  storages={product.options.storages}
-                />
-              </ContainerActions>
-            </RowActions>
-            <ContainerButton mobile={mobile}>
-              <Button
-                text='Añadir al carrito'
-                disabled={colorSelected === '' || storageSelected === ''}
-                onClick={() => submit()}
+        {showError ? (
+          <BugContainer />
+        ) : (
+          <>
+            <ProductInfo mobile={mobile}>
+              <CustomText
+                text={`${product.brand} ${product.model}`}
+                mobile={mobile}
               />
-            </ContainerButton>
-          </SecondColumn>
-        </Columns>
+              {product.price !== '' && (
+                <CustomText text={`${product.price} EUR`} mobile={mobile} />
+              )}
+            </ProductInfo>
+            <Columns mobile={mobile}>
+              <FirstColumn>
+                <Image src={product.imgUrl} />
+              </FirstColumn>
+              <SecondColumn mobile={mobile}>
+                <Title
+                  text={`Compra un ${product.brand} ${product.model}`}
+                  mobile={mobile}
+                />
+                <Subtitle mobile={mobile} text='Especificaciones' />
+                <DescriptionProductContainer
+                  dataDescription={dataDescription}
+                />
+                <RowActions>
+                  <Subtitle mobile={mobile} text='Acciones' />
+                  <ContainerActions mobile={mobile}>
+                    <CustomColorsContainer
+                      mobile={mobile}
+                      defaultSelect={colorSelected}
+                      onClick={(e) => handleChangeColor(e)}
+                      seleccion={colorSelected}
+                      colors={product.options.colors}
+                      title='Elige un acabado'
+                    />
+                    <CustomStoragesContainer
+                      mobile={mobile}
+                      onClick={(e) => handleChangeStorage(e)}
+                      title='Elige la capacidad'
+                      seleccion={storageSelected}
+                      storages={product.options.storages}
+                    />
+                  </ContainerActions>
+                </RowActions>
+                <ContainerButton mobile={mobile}>
+                  <Button
+                    text='Añadir al carrito'
+                    disabled={colorSelected === '' || storageSelected === ''}
+                    onClick={() => submit()}
+                  />
+                </ContainerButton>
+              </SecondColumn>
+            </Columns>
+          </>
+        )}
       </Container>
     );
   }
@@ -172,15 +182,6 @@ function Detail() {
 //   );
 // }
 export default Detail;
-
-const Container = styled.section`
-  height: calc(100vh - 50px);
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  margin: 0 auto;
-  padding: 24px 42px;
-`;
 
 const ProductInfo = styled.div`
   height: ${({ mobile }) => (mobile ? '25px' : '42px')};
@@ -220,6 +221,7 @@ const RowActions = styled.div`
 `;
 
 const Title = styled(Text)`
+margin: 17px;
   font-size: ${({ mobile }) => !mobile && '40px'};
   font-family: Montserrat-Bold;
   text-align: ${({ mobile }) => mobile && 'center'};
