@@ -2,11 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import styled from 'styled-components';
 import apiServices from '../services/api';
-import BreadCrumbs from '../components/BreadCrumbs';
-import Item from '../components/Item';
-import Search from '../components/Search';
-import Container from '../components/Container';
-import Text from '../components/Text';
+import { BreadCrumbs, Item, Search, Container, Text } from '../components';
 import LoadingContainer from '../containers/LoadingContainer';
 import FilterContainer from '../containers/FilterContainer';
 import useResponsive from '../hooks/useResponsive';
@@ -21,7 +17,10 @@ const Home = () => {
     'products',
     []
   );
-  const [productsFilter, setProductsFilter] = useSessionStorage('products', []);
+  const [productsFilter, setProductsFilter] = useSessionStorage(
+    'productsFilter',
+    []
+  );
   const [value, setValue] = useState('');
   const [showSearch, setShowSearch] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -74,10 +73,12 @@ const Home = () => {
               },
             ]}
           />
-          {!showError && <ContainerTextSearch onClick={() => setShowSearch(true)}>
-            <Lens />
-            <TextSearch text='Buscar' />
-          </ContainerTextSearch>}
+          {!showError && (
+            <ContainerTextSearch onClick={() => setShowSearch(true)}>
+              <Lens />
+              <TextSearch text='Buscar' />
+            </ContainerTextSearch>
+          )}
         </SubHeader>
 
         {showSearch && (
@@ -90,7 +91,9 @@ const Home = () => {
             />
           </Searcher>
         )}
-        {(productsFilter.length === 0 && !showError) && <FilterContainer value={value} />}
+        {productsFilter.length === 0 && !showError && (
+          <FilterContainer value={value} />
+        )}
         {showError ? (
           <BugContainer />
         ) : (

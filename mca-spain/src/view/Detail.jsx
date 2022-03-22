@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import apiServices from '../services/api';
 import { ROOT_PATH } from '../utils/paths';
 import styled from 'styled-components';
-import BreadCrumbs from '../components/BreadCrumbs';
-import Image from '../components/Image';
-import Container from '../components/Container';
+import { BreadCrumbs, Image, Container, Text, Button } from '../components';
 import DescriptionProductContainer from '../containers/DescriptionProductContainer';
-import Text from '../components/Text';
+
 import useResponsive from '../hooks/useResponsive';
 import LoadingContainer from '../containers/LoadingContainer';
 import ColorsContainer from '../containers/ColorsContainer';
 import StoragesContainer from '../containers/StoragesContainer';
 import BugContainer from '../containers/BugContainer';
-import Button from '../components/Button';
+
 import useSessionStorage from '../hooks/sessionStorage';
+import { Context } from '../utils/context';
 
 function Detail() {
   const history = useHistory();
@@ -22,6 +21,7 @@ function Detail() {
   const { state } = location;
   const mobile = useResponsive(931);
   const [product, setProduct] = useSessionStorage('currentProduct', []);
+  const { addToCart } = useContext(Context);
   const [dataDescription, setDataDescription] = useSessionStorage(
     'specifications',
     []
@@ -62,7 +62,8 @@ function Detail() {
           setStorageSelected(details.options.storages[0].code);
       })
       .catch((e) => {
-        if(e.response.status === 500 || e.response.status === 504) setShowError(true);
+        if (e.response.status === 500 || e.response.status === 504)
+          setShowError(true);
       });
   };
 
@@ -83,7 +84,7 @@ function Detail() {
     apiServices
       .getApiCart(body)
       .then((response) => {
-        console.log(response);
+        addToCart(response.count);
         history.push(ROOT_PATH);
       })
       .catch((e) => {
@@ -221,7 +222,7 @@ const RowActions = styled.div`
 `;
 
 const Title = styled(Text)`
-margin: 17px;
+  margin: 17px;
   font-size: ${({ mobile }) => !mobile && '40px'};
   font-family: Montserrat-Bold;
   text-align: ${({ mobile }) => mobile && 'center'};
