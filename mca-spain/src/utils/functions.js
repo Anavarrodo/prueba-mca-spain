@@ -1,3 +1,27 @@
+export const removeSessionStorage = (key) => {
+  key.forEach(element => {
+    window.sessionStorage.removeItem(element);
+  });
+}
+
+export const getFilter = (array, value) => {
+  const filtered = array.filter(
+    (i) =>
+      i.model.toLowerCase().includes(value.toLowerCase()) ||
+      i.brand.toLowerCase().includes(value.toLowerCase())
+  );
+  return filtered;
+}
+
+export const getTotalPrice = (array) => {
+  let price = 0;
+  array.forEach((element) => {
+    var notEmptyPrice = element.price === '' ? 0 : parseInt(element.price);
+    price += notEmptyPrice;
+  });
+  return price;
+};
+
 export const getColor = (color) => {
   switch (color) {
     case 'black':

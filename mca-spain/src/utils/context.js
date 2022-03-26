@@ -14,10 +14,6 @@ const ContextProvider = ({ children }) => {
     if (itemsData) setItems(JSON.parse(itemsData));
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem('cartItems', JSON.stringify(cartItems));
-  }, [cartItems]);
-
   const addToCart = (numberItem, newItem) => {
     setCartItems(numberItem);
     getItems(newItem);
@@ -29,6 +25,8 @@ const ContextProvider = ({ children }) => {
   };
 
   const getItems = (item) => {
+    let prueba = items.filter((item) => item.id !== item.id)
+    console.log(prueba)
     setItems([...items, item]);
   };
 

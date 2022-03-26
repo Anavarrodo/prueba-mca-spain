@@ -5,6 +5,7 @@ import Text from './Text';
 import { Context } from '../utils/context';
 import Dropdown from './Dropdown';
 import Remove from '../assets/svg/Remove';
+import {getTotalPrice} from '../utils/functions';
 
 const Header = ({ brand, onClick }) => {
   const { cartItems, removeFromCart, items } = useContext(Context);
@@ -17,13 +18,7 @@ const Header = ({ brand, onClick }) => {
       setTotal(0);
     } else {
       setNumberElements(cartItems);
-      let price = 0;
-      items.forEach((element) => {
-        console.log(element.price);
-        var notEmptyPrice = element.price === '' ? 0 : parseInt(element.price);
-        price += notEmptyPrice;
-      });
-      setTotal(price);
+      setTotal(getTotalPrice(items));
     }
   }, [items]);
 

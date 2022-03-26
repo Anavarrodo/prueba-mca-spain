@@ -10,6 +10,7 @@ import { PRODUCT_PATH } from '../utils/paths';
 import useSessionStorage from '../hooks/sessionStorage';
 import Lens from '../assets/svg/Lens';
 import BugContainer from '../containers/BugContainer';
+import { getFilter, removeSessionStorage } from '../utils/functions';
 
 const Home = () => {
   const history = useHistory();
@@ -29,21 +30,17 @@ const Home = () => {
   useEffect(() => {
     setValue('');
     setShowSearch(false);
-    window.sessionStorage.removeItem('currentProduct');
-    window.sessionStorage.removeItem('specifications');
-    window.sessionStorage.removeItem('colorSelected');
-    window.sessionStorage.removeItem('storageSelected');
-    if (productsOriginal.length === 0) getProducts();
+    if (productsOriginal.length === 0) {
+      getProducts();
+    } else {
+      setProductsFilter(productsOriginal);
+    }
+    removeSessionStorage(['currentProduct', 'specifications', 'colorSelected', 'storageSelected']);
   }, []);
 
   const onChangeSearch = (e) => {
     setValue(e);
-    const filtered = productsOriginal.filter(
-      (i) =>
-        i.model.toLowerCase().includes(e.toLowerCase()) ||
-        i.brand.toLowerCase().includes(e.toLowerCase())
-    );
-    setProductsFilter(filtered);
+    setProductsFilter(getFilter(productsOriginal, e));
   };
 
   const getProducts = () => {
