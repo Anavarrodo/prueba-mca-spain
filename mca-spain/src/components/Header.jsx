@@ -1,11 +1,31 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Buy from '../assets/svg/Buy';
 import Text from './Text';
 import { Context } from '../utils/context';
+import Dropdown from './Dropdown';
+import Remove from '../assets/svg/Remove';
 
 const Header = ({ brand, onClick }) => {
-  const { cartItems } = useContext(Context);
+  const { cartItems, removeFromCart, items } = useContext(Context);
+  const [numberElements, setNumberElements] = useState(cartItems);
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    if (cartItems.length === 0) {
+      setNumberElements(0);
+      setTotal(0);
+    } else {
+      setNumberElements(cartItems);
+      let price = 0;
+      items.forEach((element) => {
+        console.log(element.price);
+        var notEmptyPrice = element.price === '' ? 0 : parseInt(element.price);
+        price += notEmptyPrice;
+      });
+      setTotal(price);
+    }
+  }, [items]);
 
   return (
     <Container>
@@ -14,7 +34,34 @@ const Header = ({ brand, onClick }) => {
       </Link>
       <ContainerCart>
         <Buy />
-        <NumberItems text={cartItems} />
+        <NumberItems text={numberElements} />
+        <Dropdown>
+          {cartItems === 0 ? (
+            <TextArticles text='Tu cesta está vacía' />
+          ) : (
+            items.map((item, index) => {
+              return (
+                <Content key={index}>
+                  <CustomRemove onClick={() => removeFromCart(item.id)} />
+                  <Product>
+                    <Name text={item.brand + ' ' + item.model} />
+                    <Price
+                      text={
+                        item.price === '' ? 'A CONSULTAR' : item.price + 'EUR'
+                      }
+                    />
+                  </Product>
+                </Content>
+              );
+            })
+          )}
+          {cartItems !== 0 && (
+            <Sumamry>
+              <Summation text='TOTAL' />
+              <TotalPay text={total + 'EUR'} />
+            </Sumamry>
+          )}
+        </Dropdown>
       </ContainerCart>
     </Container>
   );
@@ -26,6 +73,7 @@ const Container = styled.div`
   display: flex;
   background-color: #333333;
   height: 50px;
+  cursor: default;
   box-sizing: border-box;
   justify-content: space-between;
   padding: 0px 42px;
@@ -44,10 +92,56 @@ const Brand = styled(Text)`
 const ContainerCart = styled.div`
   display: flex;
   align-items: center;
+  &:hover #showDropdown {
+    display: block;
+  }
 `;
 
 const NumberItems = styled(Text)`
   color: #d7d7d7;
   font-family: 'Montserrat-Bold';
   padding: 12px;
+  cursor: default;
 `;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 25px;
+`;
+
+const Product = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-left: 12px;
+`;
+
+const TextArticles = styled(Text)`
+  font-family: 'Montserrat-Bold';
+  margin: auto;
+`;
+
+const Name = styled(Text)``;
+const Price = styled(Text)`
+  font-family: 'Montserrat-Bold';
+`;
+
+const CustomRemove = styled(Remove)`
+  cursor: pointer;
+`;
+
+const Sumamry = styled.div`
+  border-top: 1px solid #d7d7d7;
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+`;
+
+const Summation = styled(Text)`
+  font-family: 'Montserrat-Bold';
+  margin-top: 16px;
+`;
+
+const TotalPay = styled(Summation)``;

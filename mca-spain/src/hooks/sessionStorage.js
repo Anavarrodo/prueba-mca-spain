@@ -11,6 +11,7 @@ const useSessionStorage = (keyName, defaultValue) => {
         sessionStorage.setItem(keyName, JSON.stringify(defaultValue));
         setInterval(() => {
           sessionStorage.clear(keyName);
+          location.reload();
         }, 3600000);
         return defaultValue;
       }

@@ -35,6 +35,7 @@ function Detail() {
     ''
   );
   const [showError, setShowError] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (Object.keys(product).length === 0) getCurrentProduct();
@@ -61,9 +62,8 @@ function Detail() {
         if (details.options.storages.length === 1)
           setStorageSelected(details.options.storages[0].code);
       })
-      .catch((e) => {
-        if (e.response.status === 500 || e.response.status === 504)
-          setShowError(true);
+      .catch(() => {
+        setShowError(true);
       });
   };
 
@@ -76,6 +76,13 @@ function Detail() {
   };
 
   const submit = () => {
+    setLoading(true);
+    let item = {
+      id: product.id,
+      brand: product.brand,
+      model: product.model,
+      price: product.price
+    }
     let body = {
       id: product.id,
       colorCode: colorSelected,
@@ -84,15 +91,16 @@ function Detail() {
     apiServices
       .getApiCart(body)
       .then((response) => {
-        addToCart(response.count);
+        addToCart(response.count, item);
         history.push(ROOT_PATH);
       })
       .catch((e) => {
         console.log(e);
       });
+      setLoading(false);
   };
 
-  if (product.length === 0 && !showError) {
+  if ((product.length === 0 && !showError || loading)) {
     return <LoadingContainer />;
   } else {
     return (

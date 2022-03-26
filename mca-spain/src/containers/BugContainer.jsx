@@ -7,11 +7,9 @@ const BugContainer = () => {
   return (
     <Container>
       <XError />
-      <Text text={'UPS...'} />
-      <Text text={'¡PARECE QUE ALGO HA IDO MAL!'} />
-      <Text
-        text={'VUELVE A INTENTARLO PASADOS UNOS SEGUNDOS'}
-      />
+      <CustomText text={'UPS...'} />
+      <CustomText text={'¡PARECE QUE ALGO HA IDO MAL!'} />
+      <CustomText text={'VUELVE A INTENTARLO PASADOS UNOS SEGUNDOS'} />
     </Container>
   );
 };
@@ -24,4 +22,8 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   margin: auto;
+`;
+
+const CustomText = styled(Text)`
+  text-align: center;
 `;

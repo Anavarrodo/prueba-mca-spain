@@ -142,7 +142,10 @@ const TextSearch = styled(Text)`
 `;
 
 const Searcher = styled.div``;
-const CustomSearch = styled(Search)``;
+const CustomSearch = styled(Search)`
+  z-index: -1;
+`;
+
 const ContainerItem = styled.div`
   display: ${({ mobile }) => (mobile ? 'flex' : 'grid')};
   flex-direction: ${({ mobile }) => (mobile ? 'column' : 'row')};
