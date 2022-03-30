@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Dropdown = ({ children }) => {
@@ -44,3 +45,10 @@ const Triangle = styled.span`
   border-left: 14px solid transparent;
   border-bottom: 14px solid #fff;
 `;
+
+Dropdown.propTypes = {
+  /**
+   * Comonente hijo
+   */
+  children: PropTypes.object,
+};

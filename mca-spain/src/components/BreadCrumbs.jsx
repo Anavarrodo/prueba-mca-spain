@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ArrowNavegation from '../assets/svg/ArrowNavegation';
 import Text from './Text';
@@ -67,3 +68,14 @@ const Crumb = styled(Text)`
   color: ${({ selected }) => (selected ? '#06c' : '333333')};
   cursor: ${({ selected }) => (selected ? 'default' : 'pointer')};
 `;
+
+BreadCrumbs.propTypes = {
+  /**
+   * Array contenedor del título y la acción de cada miga
+   */
+  crumbs: PropTypes.array,
+  /**
+   * Miga seleccionada por defecto
+   */
+  selectLastBreadCrumb: PropTypes.bool,
+};

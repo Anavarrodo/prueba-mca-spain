@@ -1,9 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useResponsive from '../hooks/useResponsive';
 
 const Box = ({ className, onClick, children }) => {
   const mobile = useResponsive(931);
+  
   return (
     <Container
       mobile={mobile}
@@ -27,3 +29,14 @@ const Container = styled.div`
   ${({ mobile }) => !mobile && 'margin-right: 12px'};
   cursor: pointer;
 `;
+
+Box.propTypes = {
+  /**
+   * Función onClick
+   */
+  onClick: PropTypes.func,
+  /**
+   * Componente hijo
+   */
+  children: PropTypes.object,
+};

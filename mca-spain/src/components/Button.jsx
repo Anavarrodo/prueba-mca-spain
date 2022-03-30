@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useResponsive from '../hooks/useResponsive';
 
@@ -45,3 +46,18 @@ const Container = styled.button`
     background-color: #006edb;
   }
 `;
+
+Button.propTypes = {
+  /**
+   * Texto del botón
+   */
+  text: PropTypes.string,
+  /**
+   * Opción de habilitar o deshabilitar el botón
+   */
+  disabled: PropTypes.bool,
+  /**
+   * Función onClick
+   */
+  onClick: PropTypes.func,
+};

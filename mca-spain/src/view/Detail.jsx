@@ -1,21 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import apiServices from '../services/api';
-import { ROOT_PATH } from '../utils/paths';
 import styled from 'styled-components';
+import apiServices from '../services/api';
 import { BreadCrumbs, Image, Container, Text, Button } from '../components';
 import DescriptionProductContainer from '../containers/DescriptionProductContainer';
-
-import useResponsive from '../hooks/useResponsive';
 import LoadingContainer from '../containers/LoadingContainer';
 import ColorsContainer from '../containers/ColorsContainer';
 import StoragesContainer from '../containers/StoragesContainer';
 import BugContainer from '../containers/BugContainer';
-
+import useResponsive from '../hooks/useResponsive';
 import useLocalStorage from '../hooks/localStorage';
 import { Context } from '../utils/context';
+import { ROOT_PATH } from '../utils/paths';
 
-function Detail() {
+const Detail = () => {
   const history = useHistory();
   const location = useLocation();
   const { state } = location;

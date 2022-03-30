@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useResponsive from '../hooks/useResponsive';
 
 const MiniCard = ({ className, children, onClick, disabled }) => {
   const mobile = useResponsive(931);
-  
+
   return (
     <Container
       disabled={disabled}
@@ -35,3 +36,18 @@ const Container = styled.div`
     box-shadow: ${({ disabled }) => !disabled && '2px 2px 5px #9999999e'};
   }
 `;
+
+MiniCard.propTypes = {
+  /**
+   * Componente hijo
+   */
+  children: PropTypes.object,
+  /**
+   * Habilitar o deshabilitar componente
+   */
+  disabled: PropTypes.bool,
+  /**
+   * Función onClick
+   */
+  onClick: PropTypes.func,
+};

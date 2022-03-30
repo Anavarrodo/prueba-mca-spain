@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Cross from '../assets/svg/Cross';
 
 const Search = ({ value, onChange, className }) => {
   const [valueInput, setValueInput] = useState(value);
-  const autoFocus = useCallback(i => i ? i.focus() : null, [])
+  const autoFocus = useCallback((i) => (i ? i.focus() : null), []);
 
   useEffect(() => {
     setValueInput(value);
@@ -29,7 +30,7 @@ const Search = ({ value, onChange, className }) => {
         onChange={(e) => eventChange(e)}
       />
       <Icon onClick={() => reset()}>
-        <Cross/>
+        <Cross />
       </Icon>
     </Container>
   );
@@ -71,3 +72,14 @@ const Icon = styled.div`
     pointer-events: all;
   }
 `;
+
+Search.propTypes = {
+  /**
+   * Texto introducido en el buscador
+   */
+  value: PropTypes.string,
+  /**
+   * Función onChange
+   */
+  onChange: PropTypes.func,
+};

@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Buy from '../assets/svg/Buy';
-import Text from './Text';
-import { Context } from '../utils/context';
-import Dropdown from './Dropdown';
 import Remove from '../assets/svg/Remove';
-import {getTotalPrice} from '../utils/functions';
+import Text from './Text';
+import Dropdown from './Dropdown';
+import { Context } from '../utils/context';
+import { getTotalPrice } from '../utils/functions';
 
 const Header = ({ brand, onClick }) => {
   const { cartItems, removeFromCart, items } = useContext(Context);
@@ -141,3 +142,14 @@ const Summation = styled(Text)`
 `;
 
 const TotalPay = styled(Summation)``;
+
+Header.propTypes = {
+  /**
+   * Nombre de la marca - Texto de la izquierda
+   */
+  brand: PropTypes.string,
+  /**
+   * Función onClick
+   */
+  onClick: PropTypes.func,
+};

@@ -1,16 +1,11 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import useResponsive from '../hooks/useResponsive';
 import Text from '../components/Text';
 import MiniCard from '../components/MiniCard';
 
-const StoragesContainer = ({
-  className,
-  storages,
-  title,
-  onClick,
-  seleccion,
-}) => {
+const StoragesContainer = ({ className, storages, title, onClick, seleccion }) => {
   const mobile = useResponsive(931);
   const [circleSelected, setCircleSelected] = useState();
   const [defaultSelected] = useState(storages.length === 1 ? true : false);
@@ -50,8 +45,8 @@ export default StoragesContainer;
 const Storages = styled.div`
   margin: ${({ mobile }) => !mobile && '17px'};
 `;
-const TitleColor = styled(Text)``;
 
+const TitleColor = styled(Text)``;
 const Container = styled.div`
   display: flex;
   margin-top: 20px;
@@ -66,9 +61,28 @@ const CustomMiniCard = styled(MiniCard)`
 const Info = styled(Text)`
   margin: auto;
   text-align: center;
-  ${({ selected, defaultSelected }) =>
-    (defaultSelected || selected) &&
+  ${({ selected, defaultSelected }) => (defaultSelected || selected) &&
     ` font-size: 14px;
-    font-family: Montserrat-Bold;
-    color: #06c;`};
+      font-family: Montserrat-Bold;
+      color: #06c;
+    `};
 `;
+
+StoragesContainer.propTypes = {
+  /**
+   * Array del objeto storage de cada producto
+   */
+  storages: PropTypes.array,
+  /**
+   * Título del contenedor
+   */
+  title: PropTypes.string,
+  /**
+   * Función onClick
+   */
+  onClick: PropTypes.func,
+  /**
+   * Selección por defecto
+   */
+  seleccion: PropTypes.string,
+};

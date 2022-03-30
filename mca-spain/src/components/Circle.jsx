@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Circle = ({ color, nameColor, className }) => {
@@ -18,3 +19,14 @@ const Color = styled.span`
     box-shadow: ${({ disabled }) => !disabled && '2px 2px 5px #9999999e'};
   }
 `;
+
+Circle.propTypes = {
+  /**
+   * Color en hex del relleno del círculo 
+   */
+  color: PropTypes.string,
+  /**
+   * Nombre del color
+   */
+  nameColor: PropTypes.string,
+};

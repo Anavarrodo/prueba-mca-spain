@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Container = ({ children }) => {
-    return <Section>{children}</Section>
-}
+  return <Section>{children}</Section>;
+};
 
 export default Container;
 
@@ -15,3 +16,10 @@ const Section = styled.section`
   margin: 0 auto;
   padding: 24px 42px;
 `;
+
+Container.propTypes = {
+  /**
+   * Comonente hijo
+   */
+  children: PropTypes.object,
+};

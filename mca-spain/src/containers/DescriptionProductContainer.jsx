@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Text from '../components/Text';
-import useResponsive from '../hooks/useResponsive';
 import MiniCard from '../components/MiniCard';
+import useResponsive from '../hooks/useResponsive';
 
 const DescriptionProduct = ({ dataDescription }) => {
   const mobile = useResponsive(931);
@@ -62,3 +63,10 @@ const Info = styled(Text)`
   margin: auto;
   text-align: center;
 `;
+
+DescriptionProduct.propTypes = {
+  /**
+   * Array con las especificaciones del producto
+   */
+  dataDescription: PropTypes.array,
+};
