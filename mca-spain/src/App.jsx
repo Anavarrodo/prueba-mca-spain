@@ -11,7 +11,15 @@ function App() {
 
   return (
     <ContextProvider>
-      <Header brand='Phone Store' onClick={() => history.push(ROOT_PATH)} />
+      <Header
+        brand='Phone Store'
+        onClick={() =>
+          history.push({
+            pathname: ROOT_PATH,
+            state: { access: 'init' },
+          })
+        }
+      />
       <main>
         <Route exact path={ROOT_PATH} component={Home} />
         <Route path={`${PRODUCT_PATH}/:id`} component={Detail} />

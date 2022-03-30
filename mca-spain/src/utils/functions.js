@@ -1,6 +1,6 @@
-export const removeSessionStorage = (key) => {
+export const removeLocalStorage = (key) => {
   key.forEach(element => {
-    window.sessionStorage.removeItem(element);
+    window.localStorage.removeItem(element);
   });
 }
 

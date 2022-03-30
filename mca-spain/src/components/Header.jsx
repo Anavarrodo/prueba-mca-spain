@@ -42,7 +42,7 @@ const Header = ({ brand, onClick }) => {
                     <Name text={item.brand + ' ' + item.model} />
                     <Price
                       text={
-                        item.price === '' ? 'A CONSULTAR' : item.price + 'EUR'
+                        item.price === '' ? 'A CONSULTAR' : item.price + ' EUR'
                       }
                     />
                   </Product>
@@ -53,7 +53,7 @@ const Header = ({ brand, onClick }) => {
           {cartItems !== 0 && (
             <Sumamry>
               <Summation text='TOTAL' />
-              <TotalPay text={total + 'EUR'} />
+              <TotalPay text={total + ' EUR'} />
             </Sumamry>
           )}
         </Dropdown>
@@ -89,6 +89,7 @@ const ContainerCart = styled.div`
   align-items: center;
   &:hover #showDropdown {
     display: block;
+    z-index: 1;
   }
 `;
 

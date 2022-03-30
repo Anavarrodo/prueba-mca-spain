@@ -12,7 +12,7 @@ import ColorsContainer from '../containers/ColorsContainer';
 import StoragesContainer from '../containers/StoragesContainer';
 import BugContainer from '../containers/BugContainer';
 
-import useSessionStorage from '../hooks/sessionStorage';
+import useLocalStorage from '../hooks/localStorage';
 import { Context } from '../utils/context';
 
 function Detail() {
@@ -20,17 +20,17 @@ function Detail() {
   const location = useLocation();
   const { state } = location;
   const mobile = useResponsive(931);
-  const [product, setProduct] = useSessionStorage('currentProduct', []);
+  const [product, setProduct] = useLocalStorage('currentProduct', []);
   const { addToCart } = useContext(Context);
-  const [dataDescription, setDataDescription] = useSessionStorage(
+  const [dataDescription, setDataDescription] = useLocalStorage(
     'specifications',
     []
   );
-  const [colorSelected, setColorSelected] = useSessionStorage(
+  const [colorSelected, setColorSelected] = useLocalStorage(
     'colorSelected',
     ''
   );
-  const [storageSelected, setStorageSelected] = useSessionStorage(
+  const [storageSelected, setStorageSelected] = useLocalStorage(
     'storageSelected',
     ''
   );
@@ -92,7 +92,7 @@ function Detail() {
       .getApiCart(body)
       .then((response) => {
         addToCart(response.count, item);
-        history.push(ROOT_PATH);
+        history.push({pathname: ROOT_PATH, state: {access: 'detail'}});
       })
       .catch((e) => {
         console.log(e);
@@ -111,7 +111,7 @@ function Detail() {
             {
               title: 'Listado de productos',
               onClick: () => {
-                history.push(ROOT_PATH);
+                history.push({pathname: ROOT_PATH, state: {access: 'detail'}});
               },
             },
             { title: 'Detalle del producto' },

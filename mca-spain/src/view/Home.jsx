@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import apiServices from '../services/api';
 import { BreadCrumbs, Item, Search, Container, Text } from '../components';
@@ -7,36 +7,31 @@ import LoadingContainer from '../containers/LoadingContainer';
 import FilterContainer from '../containers/FilterContainer';
 import useResponsive from '../hooks/useResponsive';
 import { PRODUCT_PATH } from '../utils/paths';
-import useSessionStorage from '../hooks/sessionStorage';
+import useLocalStorage from '../hooks/localStorage';
 import Lens from '../assets/svg/Lens';
 import BugContainer from '../containers/BugContainer';
-import { getFilter, removeSessionStorage } from '../utils/functions';
+import { getFilter, removeLocalStorage } from '../utils/functions';
 
 const Home = () => {
   const history = useHistory();
-  const [productsOriginal, setProductsOriginal] = useSessionStorage(
-    'products',
-    []
-  );
-  const [productsFilter, setProductsFilter] = useSessionStorage(
-    'productsFilter',
-    []
-  );
-  const [value, setValue] = useState('');
-  const [showSearch, setShowSearch] = useState(false);
-  const [showError, setShowError] = useState(false);
+  const location = useLocation();
   const mobile = useResponsive();
+  const [productsOriginal, setProductsOriginal] = useLocalStorage('products', []);
+  const [productsFilter, setProductsFilter] = useLocalStorage('productsFilter', []);
+  const [value, setValue] = useLocalStorage('valueFilter', '');
+  const [showSearch, setShowSearch] = useLocalStorage('showSearch', false);
+  const [showError, setShowError] = useState(false);
+
 
   useEffect(() => {
-    setValue('');
-    setShowSearch(false);
-    if (productsOriginal.length === 0) {
-      getProducts();
-    } else {
+    if (productsOriginal.length === 0) getProducts();
+    if (location.state && location.state.access === 'init') {
+      setShowSearch(false);
+      setValue('');
       setProductsFilter(productsOriginal);
     }
-    removeSessionStorage(['currentProduct', 'specifications', 'colorSelected', 'storageSelected']);
-  }, []);
+    removeLocalStorage(['currentProduct', 'specifications', 'colorSelected', 'storageSelected', ]);
+  }, [location.state]);
 
   const onChangeSearch = (e) => {
     setValue(e);
@@ -79,14 +74,12 @@ const Home = () => {
         </SubHeader>
 
         {showSearch && (
-          <Searcher>
-            <CustomSearch
-              value={value}
-              onChange={(e) => {
-                onChangeSearch(e);
-              }}
-            />
-          </Searcher>
+          <Search
+            value={value}
+            onChange={(e) => {
+              onChangeSearch(e);
+            }}
+          />
         )}
         {productsFilter.length === 0 && !showError && (
           <FilterContainer value={value} />
@@ -136,11 +129,6 @@ const ContainerTextSearch = styled.div`
 
 const TextSearch = styled(Text)`
   margin-left: 8px;
-`;
-
-const Searcher = styled.div``;
-const CustomSearch = styled(Search)`
-  z-index: -1;
 `;
 
 const ContainerItem = styled.div`

@@ -1,16 +1,16 @@
 import React from 'react';
 
-const useSessionStorage = (keyName, defaultValue) => {
+const useLocalStorage = (keyName, defaultValue) => {
   const [storedValue, setStoredValue] = React.useState(() => {
     try {
-      const value = sessionStorage.getItem(keyName);
+      const value = localStorage.getItem(keyName);
 
       if (value) {
         return JSON.parse(value);
       } else {
-        sessionStorage.setItem(keyName, JSON.stringify(defaultValue));
+        localStorage.setItem(keyName, JSON.stringify(defaultValue));
         setInterval(() => {
-          sessionStorage.clear(keyName);
+          localStorage.clear(keyName);
           location.reload();
         }, 3600000);
         return defaultValue;
@@ -22,7 +22,7 @@ const useSessionStorage = (keyName, defaultValue) => {
 
   const setValue = (newValue) => {
     try {
-      sessionStorage.setItem(keyName, JSON.stringify(newValue));
+      localStorage.setItem(keyName, JSON.stringify(newValue));
     } catch (err) {}
     setStoredValue(newValue);
   };
@@ -30,4 +30,4 @@ const useSessionStorage = (keyName, defaultValue) => {
   return [storedValue, setValue];
 };
 
-export default useSessionStorage;
+export default useLocalStorage;

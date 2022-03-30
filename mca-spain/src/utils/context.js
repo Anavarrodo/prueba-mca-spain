@@ -1,15 +1,15 @@
 import React, { useEffect, createContext } from 'react';
-import useSessionStorage from '../hooks/sessionStorage';
+import useLocalStorage from '../hooks/localStorage';
 
 const Context = createContext();
 
 const ContextProvider = ({ children }) => {
-  const [cartItems, setCartItems] = useSessionStorage('cart', 0);
-  const [items, setItems] = useSessionStorage('items', []);
+  const [cartItems, setCartItems] = useLocalStorage('cart', 0);
+  const [items, setItems] = useLocalStorage('items', []);
 
   useEffect(() => {
-    const cartItemsData = sessionStorage.getItem('cart');
-    const itemsData = sessionStorage.getItem('items');
+    const cartItemsData = localStorage.getItem('cart');
+    const itemsData = localStorage.getItem('items');
     if (cartItemsData) setCartItems(JSON.parse(cartItemsData));
     if (itemsData) setItems(JSON.parse(itemsData));
   }, []);
@@ -25,8 +25,6 @@ const ContextProvider = ({ children }) => {
   };
 
   const getItems = (item) => {
-    let prueba = items.filter((item) => item.id !== item.id)
-    console.log(prueba)
     setItems([...items, item]);
   };
 
