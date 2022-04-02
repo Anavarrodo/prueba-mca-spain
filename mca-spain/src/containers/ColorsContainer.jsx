@@ -6,6 +6,7 @@ import Circle from '../components/Circle';
 import Text from '../components/Text';
 import useResponsive from '../hooks/useResponsive';
 import { getColor } from '../utils/functions';
+import { COLORS } from '../utils/colors';
 
 const ColorsContainer = ({ className, colors, title, onClick, seleccion }) => {
   const mobile = useResponsive(931);
@@ -54,9 +55,10 @@ const Container = styled.div`
 `;
 
 const CustomBox = styled(Box)`
-  ${({ selected, defaultSelected }) => (defaultSelected || selected) &&
-    ` background: #ffffff;
-      border: 1px solid #daddf2;
+  ${({ selected, defaultSelected }) =>
+    (defaultSelected || selected) &&
+    ` background: ${COLORS.white};
+      border: 1px solid ${COLORS.borderWhite};
       box-shadow: 0px 1px 2px 1px rgb(37 75 208 / 5%);
       border-radius: 6px;
     `};

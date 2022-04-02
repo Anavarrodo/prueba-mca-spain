@@ -4,7 +4,7 @@ import { ROOT_PATH, PRODUCT_PATH } from './utils/paths';
 import { Header } from './components';
 import Home from './view/Home';
 import Detail from './view/Detail';
-import { ContextProvider } from './utils/context';
+import { ContextProvider } from './Context/context';
 
 function App() {
   const history = useHistory();

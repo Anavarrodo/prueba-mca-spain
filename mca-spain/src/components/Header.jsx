@@ -5,8 +5,9 @@ import Buy from '../assets/svg/Buy';
 import Remove from '../assets/svg/Remove';
 import Text from './Text';
 import Dropdown from './Dropdown';
-import { Context } from '../utils/context';
+import { Context } from '../Context/context';
 import { getTotalPrice } from '../utils/functions';
+import { COLORS } from '../utils/colors';
 
 const Header = ({ brand, onClick }) => {
   const { cartItems, removeFromCart, items } = useContext(Context);
@@ -66,9 +67,9 @@ const Header = ({ brand, onClick }) => {
 export default Header;
 
 const Container = styled.div`
-  display: flex;
-  background-color: #333333;
   height: 50px;
+  display: flex;
+  background-color: ${COLORS.softBlack};
   cursor: default;
   box-sizing: border-box;
   justify-content: space-between;
@@ -81,7 +82,7 @@ const Link = styled.div`
 `;
 
 const Brand = styled(Text)`
-  color: #d7d7d7;
+  color: ${COLORS.softWhite};
   margin: auto;
 `;
 
@@ -95,17 +96,17 @@ const ContainerCart = styled.div`
 `;
 
 const NumberItems = styled(Text)`
-  color: #d7d7d7;
-  font-family: 'Montserrat-Bold';
+  color: ${COLORS.softWhite};
+  font-family: Montserrat-Bold;
   padding: 12px;
   cursor: default;
 `;
 
 const Content = styled.div`
-  display: flex;
-  flex-direction: row;
   width: 100%;
   height: 25px;
+  display: flex;
+  flex-direction: row;
 `;
 
 const Product = styled.div`
@@ -116,13 +117,13 @@ const Product = styled.div`
 `;
 
 const TextArticles = styled(Text)`
-  font-family: 'Montserrat-Bold';
+  font-family: Montserrat-Bold;
   margin: auto;
 `;
 
 const Name = styled(Text)``;
 const Price = styled(Text)`
-  font-family: 'Montserrat-Bold';
+  font-family: Montserrat-Bold;
 `;
 
 const CustomRemove = styled(Remove)`
@@ -130,14 +131,14 @@ const CustomRemove = styled(Remove)`
 `;
 
 const Sumamry = styled.div`
-  border-top: 1px solid #d7d7d7;
+  border-top: 1px solid ${COLORS.softWhite};
   display: flex;
   justify-content: flex-end;
   gap: 16px;
 `;
 
 const Summation = styled(Text)`
-  font-family: 'Montserrat-Bold';
+  font-family: Montserrat-Bold;
   margin-top: 16px;
 `;
 

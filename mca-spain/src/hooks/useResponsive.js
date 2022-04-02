@@ -5,7 +5,7 @@ const useResponsive = (resolution = 680) => {
 
   useEffect(() => {
     // set initial value
-    const mediaWatcher = window.matchMedia('(max-width:'+resolution+'px)');
+    const mediaWatcher = window.matchMedia('(max-width:' + resolution + 'px)');
     setMobile(mediaWatcher.matches);
 
     //watch for updates

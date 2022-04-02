@@ -5,7 +5,7 @@ import useResponsive from '../hooks/useResponsive';
 
 const Box = ({ className, onClick, children }) => {
   const mobile = useResponsive(931);
-  
+
   return (
     <Container
       mobile={mobile}
@@ -26,8 +26,8 @@ const Container = styled.div`
   height: 45px;
   display: flex;
   border-radius: 12px;
-  ${({ mobile }) => !mobile && 'margin-right: 12px'};
   cursor: pointer;
+  ${({ mobile }) => !mobile && 'margin-right: 12px'};
 `;
 
 Box.propTypes = {

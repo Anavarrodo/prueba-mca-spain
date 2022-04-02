@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { COLORS } from '../utils/colors';
 import Cross from '../assets/svg/Cross';
 
 const Search = ({ value, onChange, className }) => {
@@ -45,13 +46,13 @@ const Container = styled.div`
 const InputCustom = styled.input`
   width: 100%;
   height: 42px;
-  background: #ffffff;
-  border-bottom: 1px solid #333333;
+  background: ${COLORS.white};
+  border-bottom: 1px solid ${COLORS.softBlack};
   border-right: none;
   border-left: none;
   border-top: none;
   box-sizing: border-box;
-  color: #333333;
+  color: ${COLORS.softBlack};
   padding-left: 12px;
   &:focus {
     outline: none;
@@ -59,7 +60,7 @@ const InputCustom = styled.input`
   ::placeholder {
     font-family: Montserrat-Regular;
     font-size: 12px;
-    color: #333333;
+    color: ${COLORS.softBlack};
   }
 `;
 

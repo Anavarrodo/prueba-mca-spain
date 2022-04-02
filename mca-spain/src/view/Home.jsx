@@ -15,7 +15,7 @@ import { getFilter, removeLocalStorage } from '../utils/functions';
 const Home = () => {
   const history = useHistory();
   const location = useLocation();
-  const mobile = useResponsive();
+  const mobile = useResponsive(931);
   const [productsOriginal, setProductsOriginal] = useLocalStorage('products', []);
   const [productsFilter, setProductsFilter] = useLocalStorage('productsFilter', []);
   const [value, setValue] = useLocalStorage('valueFilter', '');

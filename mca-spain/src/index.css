@@ -4,11 +4,6 @@
 }
 
 @font-face {
-  font-family: Montserrat-ExtraBold;
-  src: url(./assets/fonts/Montserrat-ExtraBold.ttf);
-}
-
-@font-face {
   font-family: Montserrat-Bold;
   src: url(./assets/fonts/Montserrat-Bold.ttf);
 }

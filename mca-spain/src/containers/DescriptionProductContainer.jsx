@@ -55,7 +55,7 @@ const ContainerMiniCard = styled.div`
   align-items: center;
 `;
 const CustomMiniCard = styled(MiniCard)`
-  ${({ separation }) => separation && `flex-direction: column;`};
+  ${({ separation }) => separation && 'flex-direction: column;'};
   height: ${({ mobile }) => mobile && 'height: auto;'};
 `;
 

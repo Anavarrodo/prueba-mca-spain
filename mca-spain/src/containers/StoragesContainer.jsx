@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import useResponsive from '../hooks/useResponsive';
 import Text from '../components/Text';
 import MiniCard from '../components/MiniCard';
+import { COLORS } from '../utils/colors';
 
 const StoragesContainer = ({ className, storages, title, onClick, seleccion }) => {
   const mobile = useResponsive(931);
@@ -64,7 +65,7 @@ const Info = styled(Text)`
   ${({ selected, defaultSelected }) => (defaultSelected || selected) &&
     ` font-size: 14px;
       font-family: Montserrat-Bold;
-      color: #06c;
+      color: ${COLORS.blue};
     `};
 `;
 

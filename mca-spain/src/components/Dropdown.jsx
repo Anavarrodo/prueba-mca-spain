@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { COLORS } from '../utils/colors';
 
 const Dropdown = ({ children }) => {
   return (
@@ -24,7 +25,7 @@ const Container = styled.div`
 `;
 
 const ContainerInt = styled.div`
-  background-color: #fff;
+  background-color: ${COLORS.white};
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -43,7 +44,7 @@ const Triangle = styled.span`
   right: 24px;
   border-right: 14px solid transparent;
   border-left: 14px solid transparent;
-  border-bottom: 14px solid #fff;
+  border-bottom: 14px solid ${COLORS.white};
 `;
 
 Dropdown.propTypes = {

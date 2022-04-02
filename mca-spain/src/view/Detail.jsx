@@ -10,8 +10,9 @@ import StoragesContainer from '../containers/StoragesContainer';
 import BugContainer from '../containers/BugContainer';
 import useResponsive from '../hooks/useResponsive';
 import useLocalStorage from '../hooks/localStorage';
-import { Context } from '../utils/context';
+import { Context } from '../Context/context';
 import { ROOT_PATH } from '../utils/paths';
+import { COLORS } from '../utils/colors';
 
 const Detail = () => {
   const history = useHistory();
@@ -177,22 +178,11 @@ const Detail = () => {
   }
 }
 
-// function TestComponent() {
-//   const testRef = useRef(null);
-//   const scrollToElement = () => testRef.current.scrollIntoView();
-//   // Once the scrollToElement function is run, the scroll will show the element
-//   return (
-//     <>
-//       <div ref={testRef}>Element you want to view</div>
-//       <button onClick={scrollToElement}>Trigger the scroll</button>
-//     </>
-//   );
-// }
 export default Detail;
 
 const ProductInfo = styled.div`
   height: ${({ mobile }) => (mobile ? '25px' : '42px')};
-  border-bottom: 1px solid #333333;
+  border-bottom: 1px solid ${COLORS.softBlack};
   display: flex;
   padding-bottom: 18px;
   flex-direction: row;
@@ -235,9 +225,10 @@ const Title = styled(Text)`
 `;
 
 const Subtitle = styled(Text)`
-  color: #06c;
+  color: ${COLORS.blue};
   margin: ${({ mobile }) => (mobile ? 'auto' : '17px')};
 `;
+
 const ContainerActions = styled.div`
   display: flex;
   ${({ mobile }) => mobile && `flex-direction: column;`}

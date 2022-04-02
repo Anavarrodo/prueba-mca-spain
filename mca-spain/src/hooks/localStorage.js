@@ -1,7 +1,7 @@
-import React from 'react';
+import { useState } from 'react';
 
 const useLocalStorage = (keyName, defaultValue) => {
-  const [storedValue, setStoredValue] = React.useState(() => {
+  const [storedValue, setStoredValue] = useState(() => {
     try {
       const value = localStorage.getItem(keyName);
 
@@ -9,7 +9,7 @@ const useLocalStorage = (keyName, defaultValue) => {
         return JSON.parse(value);
       } else {
         localStorage.setItem(keyName, JSON.stringify(defaultValue));
-        setInterval(() => {
+        setTimeout(() => {
           localStorage.clear(keyName);
           location.reload();
         }, 3600000);

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import ArrowNavegation from '../assets/svg/ArrowNavegation';
 import Text from './Text';
+import { COLORS } from '../utils/colors';
 
 const BreadCrumbs = ({ crumbs, selectLastBreadCrumb }) => {
   return (
@@ -44,9 +45,9 @@ const Container = styled.div`
 `;
 
 const CrumbLeft = styled.div`
+  width: auto;
   height: 18px;
   margin: -5px -2px 0px 0px;
-  width: auto;
 `;
 
 const CrumbRight = styled(CrumbLeft)`
@@ -57,7 +58,7 @@ const InitialCrumb = styled(Text)`
   &:hover {
     ${({ hover }) =>
       hover &&
-      `text-decoration: underline #333333;
+      `text-decoration: underline ${COLORS.softBlack};
         cursor: pointer;
     `}
   }
@@ -65,7 +66,7 @@ const InitialCrumb = styled(Text)`
 
 const Crumb = styled(Text)`
   height: 18px;
-  color: ${({ selected }) => (selected ? '#06c' : '333333')};
+  color: ${({ selected }) => (selected ? COLORS.blue : COLORS.softBlack)};
   cursor: ${({ selected }) => (selected ? 'default' : 'pointer')};
 `;
 
