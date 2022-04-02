@@ -26,11 +26,11 @@ const Detail = () => {
   );
   const [colorSelected, setColorSelected] = useLocalStorage(
     'colorSelected',
-    ''
+    null
   );
   const [storageSelected, setStorageSelected] = useLocalStorage(
     'storageSelected',
-    ''
+    null
   );
   const [showError, setShowError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -164,7 +164,7 @@ const Detail = () => {
                 <ContainerButton mobile={mobile}>
                   <Button
                     text='Añadir al carrito'
-                    disabled={colorSelected === '' || storageSelected === ''}
+                    disabled={!colorSelected || !storageSelected}
                     onClick={() => submit()}
                   />
                 </ContainerButton>

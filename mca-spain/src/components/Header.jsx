@@ -15,7 +15,7 @@ const Header = ({ brand, onClick }) => {
 
   useEffect(() => {
     if (cartItems.length === 0) {
-      setNumberElements(0);
+      setNumberElements('0');
       setTotal(0);
     } else {
       setNumberElements(cartItems);
@@ -38,7 +38,7 @@ const Header = ({ brand, onClick }) => {
             items.map((item, index) => {
               return (
                 <Content key={index}>
-                  <CustomRemove onClick={() => removeFromCart(item.id)} />
+                  <CustomRemove onClick={() => removeFromCart(index)} />
                   <Product>
                     <Name text={item.brand + ' ' + item.model} />
                     <Price

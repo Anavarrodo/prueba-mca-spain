@@ -19,8 +19,8 @@ const ContextProvider = ({ children }) => {
     getItems(newItem);
   };
 
-  const removeFromCart = (id) => {
-    setItems(items.filter((item) => item.id !== id));
+  const removeFromCart = (index) => {
+    setItems(items.filter((item, i) => i !== index));
     setCartItems(cartItems - 1);
   };
 

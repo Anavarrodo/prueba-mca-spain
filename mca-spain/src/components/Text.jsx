@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const Text = ({ text, className }) => {
+  console.log(text)
   return <Message className={className}>{text}</Message>;
 };
 

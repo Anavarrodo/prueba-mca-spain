@@ -21,5 +21,5 @@ Container.propTypes = {
   /**
    * Comonente hijo
    */
-  children: PropTypes.object,
+  children: PropTypes.array,
 };

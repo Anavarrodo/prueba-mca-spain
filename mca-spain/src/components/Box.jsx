@@ -38,5 +38,5 @@ Box.propTypes = {
   /**
    * Componente hijo
    */
-  children: PropTypes.object,
+  children: PropTypes.array,
 };

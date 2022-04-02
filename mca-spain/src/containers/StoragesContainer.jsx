@@ -84,5 +84,5 @@ StoragesContainer.propTypes = {
   /**
    * Selección por defecto
    */
-  seleccion: PropTypes.string,
+  seleccion: PropTypes.number,
 };
