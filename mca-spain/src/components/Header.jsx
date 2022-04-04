@@ -5,7 +5,7 @@ import Buy from '../assets/svg/Buy';
 import Remove from '../assets/svg/Remove';
 import Text from './Text';
 import Dropdown from './Dropdown';
-import { Context } from '../Context/context';
+import { Context } from '../context/context';
 import { getTotalPrice } from '../utils/functions';
 import { COLORS } from '../utils/colors';
 

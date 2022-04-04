@@ -10,7 +10,7 @@ import StoragesContainer from '../containers/StoragesContainer';
 import BugContainer from '../containers/BugContainer';
 import useResponsive from '../hooks/useResponsive';
 import useLocalStorage from '../hooks/localStorage';
-import { Context } from '../Context/context';
+import { Context } from '../context/context';
 import { ROOT_PATH } from '../utils/paths';
 import { COLORS } from '../utils/colors';
 
