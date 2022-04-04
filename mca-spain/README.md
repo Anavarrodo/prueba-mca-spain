@@ -4,8 +4,7 @@
   - [Control de cambios](#control-de-cambios)
   - [Necesidades](#necesidades)
   - [Descripción](#descripción)
-  - [Instalación](#instalación)
-    - [npm start](#npm-start)
+  - [npm start](#npm-start)
   - [Desarrollo](#desarrollo)
     - [assets](#assets)
     - [components](#components)
@@ -48,16 +47,14 @@ Puntos a destacar:
 - Libertad en el stack usado en la prueba.
 - Repositorio: <https://github.com/Anavarrodo/prueba-mca-spain/tree/master/mca-spain>
 
-## Instalación
-
-### `npm start`
+## `npm start`
 
 Ejecuta la aplicación en el modo de desarrollo
 Una vez hecho esto el proyecto debería ser accesible vía navegador en [http://localhost:3000](http://localhost:3000)
 
 ## Desarrollo
 
-He seguido la metodología Atomic Design; es deicr, es un sistema de trabajo que se basa en la creación de elementos modulares sencillos para crear estructuras de información mucho más complejas.
+He seguido la metodología Atomic Design; es decir, un sistema de trabajo que se basa en la creación de elementos modulares sencillos para crear estructuras de información mucho más complejas.
 
 ### assets
 
