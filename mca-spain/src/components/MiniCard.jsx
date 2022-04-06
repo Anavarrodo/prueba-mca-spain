@@ -42,7 +42,7 @@ MiniCard.propTypes = {
   /**
    * Componente hijo
    */
-  children: PropTypes.array,
+  children: PropTypes.any,
   /**
    * Habilitar o deshabilitar componente
    */

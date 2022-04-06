@@ -12,7 +12,7 @@ import Lens from '../assets/svg/Lens';
 import BugContainer from '../containers/BugContainer';
 import { getFilter, removeLocalStorage } from '../utils/functions';
 
-const Home = () => {
+const ProductListPage = () => {
   const history = useHistory();
   const location = useLocation();
   const mobile = useResponsive(931);
@@ -111,7 +111,7 @@ const Home = () => {
   }
 };
 
-export default Home;
+export default ProductListPage;
 
 const SubHeader = styled.div`
   display: flex;

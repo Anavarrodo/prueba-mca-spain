@@ -12,7 +12,7 @@ const useLocalStorage = (keyName, defaultValue) => {
         setTimeout(() => {
           localStorage.clear(keyName);
           location.reload();
-        }, 3600000);
+        }, 1000 * 60 * 60);
         return defaultValue;
       }
     } catch (err) {

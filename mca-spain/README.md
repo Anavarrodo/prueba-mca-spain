@@ -3,13 +3,13 @@
 - [mca-spain](#mca-spain)
   - [Control de cambios](#control-de-cambios)
   - [Necesidades](#necesidades)
-  - [Descripción](#descripción)
+  - [npm install](#npm-install)
   - [npm start](#npm-start)
   - [Desarrollo](#desarrollo)
     - [assets](#assets)
     - [components](#components)
     - [containers](#containers)
-    - [views](#views)
+    - [pages](#pages)
     - [context](#context)
     - [hooks](#hooks)
     - [services](#services)
@@ -47,6 +47,10 @@ Puntos a destacar:
 - Libertad en el stack usado en la prueba.
 - Repositorio: <https://github.com/Anavarrodo/prueba-mca-spain/tree/master/mca-spain>
 
+## `npm install`
+
+Lanzar **npm install** para instalar todas las dependenias del proyecto.
+
 ## `npm start`
 
 Ejecuta la aplicación en el modo de desarrollo
@@ -72,9 +76,9 @@ Todos estos componentes pueden ser reutilizados en todas las vistas ( en el cont
 
 Módulos estructurales de pequeñas mini-secciones formados por los distintos componentes.
 
-### views
+### pages
 
-Carpeta donde incluyen las vistas de esta aplicación.
+Carpeta donde se incluyen las vistas de esta aplicación.
 En este caso nos encontramos con dos únicas vistas: Listado de producto y detalle del producto.
 
 ### context

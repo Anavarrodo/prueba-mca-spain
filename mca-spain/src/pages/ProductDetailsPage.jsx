@@ -14,7 +14,7 @@ import { Context } from '../context/context';
 import { ROOT_PATH } from '../utils/paths';
 import { COLORS } from '../utils/colors';
 
-const Detail = () => {
+const ProductDetailsPage = () => {
   const history = useHistory();
   const location = useLocation();
   const { state } = location;
@@ -178,7 +178,7 @@ const Detail = () => {
   }
 }
 
-export default Detail;
+export default ProductDetailsPage;
 
 const ProductInfo = styled.div`
   height: ${({ mobile }) => (mobile ? '25px' : '42px')};

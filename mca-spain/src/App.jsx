@@ -2,8 +2,8 @@ import React from 'react';
 import { Route, useHistory } from 'react-router-dom';
 import { ROOT_PATH, PRODUCT_PATH } from './utils/paths';
 import { Header } from './components';
-import Home from './view/Home';
-import Detail from './view/Detail';
+import ProductListPage from './pages/ProductListPage';
+import ProductDetailsPage from './pages/ProductDetailsPage';
 import { ContextProvider } from './context/context';
 
 function App() {
@@ -21,8 +21,8 @@ function App() {
         }
       />
       <main>
-        <Route exact path={ROOT_PATH} component={Home} />
-        <Route path={`${PRODUCT_PATH}/:id`} component={Detail} />
+        <Route exact path={ROOT_PATH} component={ProductListPage} />
+        <Route path={`${PRODUCT_PATH}/:id`} component={ProductDetailsPage} />
       </main>
     </ContextProvider>
   );
